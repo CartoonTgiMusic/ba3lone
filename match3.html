@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>match1</title>
+<style>
+ *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+ }
+ body{
+    padding:0 5px;
+ }
+.nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    padding: 0;
+    h3{
+        margin: 0px 10px;
+    }
+}
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            button{
+                width: 100%;
+                background: rgb(0, 0, 255);
+                color: white;
+                font-size: 12px;
+                border: none;
+                padding: 3px;
+            }
+             
+        }
+      tr{
+
+          th{
+              background-color: rgb(255, 255, 255);
+              color: rgb(0, 0, 0);
+              border: 1px solid rgb(0, 0, 0);
+              padding: 2px 0px;
+              text-align: center;
+              font-size: 14px;
+              
+              input{
+                  width:100%;
+                  border: none;
+                  padding-left: 5px;
+                  background: none;
+                  outline: none;
+              }
+             
+          }
+      }
+        td{
+            border-bottom: 1px dotted blue;
+            background-color:rgb(255, 255, 255);
+            text-align: center;
+            button{
+                background: red;
+            }
+        }
+
+.score-ctn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    font-size: 14px;
+    button{
+        width: 100%;
+        padding: 5px;
+        background: yellow;
+    }
+    input{
+        width: 90%;
+    }
+  }
+  .upscore-name,.doscore-name{
+    width: 150px;
+
+  }
+  .save-btn{
+    background: rgb(0, 255, 0);
+  }
+
+}
+
+/* Hide the arrow buttons on Chrome, Safari, Edge, and Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.inactive{
+    display: none;
+}
+</style>
+
+</head>
+<body>
+    <div class="nav"><h4 class="home"></h4><h3 class="home-score"></h3><h3> - </h3><h3 class="away-score"></h3><h4 class="away"></h4></div>
+    <div class="main-ctn">
+      <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Bodd</th>
+                <th class="upteam-name"></th>
+                <th class="doteam-name"></th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <thead class="inputs-thead">
+            <tr>
+                <th><input type="text" class="name-input" id="input1" onkeydown="focusNextInput(event, 'input2')"></th>
+                <th><input type="text" class="upodd-input" id="input2" onkeydown="focusNextInput(event, 'input3')"></th>
+                <th> <input type="number" class="upteambet-input" id="input3" onkeydown="focusNextInput(event, 'input4')"></th>
+                <th><input type="number" class="downteambet-input" id="input4" onkeydown="focusNextInput(event, 'input5')"> </th>
+                <th><button  onclick="Enter()" id="input5" class="enter-btn" onkeydown="focusNextInput(event, 'input6')">Enter</button></th>
+            </tr>
+        </thead>
+        <tbody class="body-display"></tbody>
+      </table>
+
+      <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Godd</th>
+                <th>Goal+↑</th>
+                <th>Goal+↓</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <thead class="inputs-thead">
+            <tr>
+                <th><input type="text" class="goalname-input" id="input6" onkeydown="focusNextInput(event, 'input7')" ></th>
+                <th><input type="text" class="goalodd-input" id="input7" onkeydown="focusNextInput(event, 'input8')" > </th>
+                <th><input type="number" class="upgoalbet-input" id="input8" onkeydown="focusNextInput(event, 'input9')" ></th>
+                <th><input type="number" class="dogoalbet-input" id="input9" onkeydown="focusNextInput(event, 'input10')" ></th>
+                <th><button  onclick="goalEnter()" id="input10" class="goalenter-btn" onkeydown="focusNextInput(event, 'input1')">Enter</button></th>
+            </tr>
+        </thead>
+        <tbody class="goals-display"></tbody>
+      </table>
+
+    </div>
+
+    <div class="score-ctn">
+        <div class="upscore-name"></div>
+        <div class="upscore"><input type="number" class="upscore-input" id="input11" onkeydown="focusNextInput(event, 'input12')"></div>
+        <div class="doscore"><input type="number" class="doscore-input" id="input12"onkeydown="focusNextInput(event, 'input13')"></div>
+        <div class="doscore-name" ></div>
+        <div class="match-ctn">
+            <button onclick="Save()" id="input13" class="save-btn">Save</button>
+            <button onclick="Edit()" class="edit">Edit</button>
+        </div>
+        
+</div>
+
+<script>
+    const allmatchs = JSON.parse(localStorage.getItem('allmatchs'))||[]
+    const body = JSON.parse(localStorage.getItem('body3'))||[]
+    const goals = JSON.parse(localStorage.getItem('goals3'))||[]
+    const comm = JSON.parse(localStorage.getItem('customer'))||[]
+    const matchscore = JSON.parse(localStorage.getItem('score3')) || []
+    const result = JSON.parse(localStorage.getItem('result3')) || []
+            document.querySelector('.upteam-name').textContent = allmatchs[2].pName
+            document.querySelector('.doteam-name').textContent = allmatchs[2].dName
+            document.querySelector('.upscore-name').textContent = allmatchs[2].pName
+            document.querySelector('.doscore-name').textContent = allmatchs[2].dName
+
+const focusNextInput=(event, nextInputId)=>{
+       if(event.key === 'Enter'){
+        event.preventDefault();
+        document.getElementById(nextInputId).focus()
+       }
+ };
+ document.getElementById('input5').addEventListener('keydown',function(e){
+            if(e.key === 'Enter'){
+                e.preventDefault()
+                Enter()
+            }
+        });
+ document.getElementById('input3').addEventListener('keydown',function(e){
+            if(e.key === 'ArrowDown'){
+                e.preventDefault()
+                document.getElementById('input6').focus()
+            }
+        });
+ document.getElementById('input10').addEventListener('keydown',function(e){
+            if(e.key === 'Enter'){
+                e.preventDefault()
+                goalEnter()
+            }
+        });
+            let upname = allmatchs[2].pName
+            let dname = allmatchs[2].dName
+document.querySelector('.home').textContent = allmatchs[2].pName
+document.querySelector('.away').textContent = allmatchs[2].dName
+const enterDisplay=()=>{
+            
+            body.forEach((ele,index) => {
+                const tr = document.createElement('tr')
+                const nameTd = document.createElement('td')
+                nameTd.textContent = ele.name
+ 
+                const BoddTd = document.createElement('td')
+                BoddTd.textContent = ele.Bodd
+
+                const upTeamTd = document.createElement('td')
+                upTeamTd.textContent = ele.upBet
+
+                const doTeamTd = document.createElement('td')
+                doTeamTd.textContent = ele.doBet
+
+                const ActionTd =document.createElement('td')
+                const btn = document.createElement('button')
+                btn.className = 'delete-btn'
+                btn.textContent = 'Delete'
+                btn.onclick = ()=>Remove(index)
+                ActionTd.appendChild(btn)
+
+                tr.append(nameTd,BoddTd,upTeamTd,doTeamTd,ActionTd)
+                document.querySelector('.body-display').appendChild(tr)
+
+            });
+        };
+
+enterDisplay()
+
+const goalenterDisplay=()=>{
+    let html=''
+            let upname = allmatchs[2].pName
+            let dname = allmatchs[2].dName
+            goals.forEach((ele,index) => {
+                const tr = document.createElement('tr')
+                const nameTd = document.createElement('td')
+                nameTd.textContent = ele.name
+ 
+                const upoddTd = document.createElement('td')
+                upoddTd.textContent = ele.Godd
+
+                const upTeamTd = document.createElement('td')
+                upTeamTd.textContent = ele.GupBet
+
+                const doTeamTd = document.createElement('td')
+                doTeamTd.textContent = ele.GdoBet
+
+                const ActionTd =document.createElement('td')
+                const btn = document.createElement('button')
+                btn.className = 'delete-btn'
+                btn.textContent = 'Delete'
+                btn.onclick = ()=>goalRemove(index)
+                ActionTd.appendChild(btn)
+
+                tr.append(nameTd,upoddTd,upTeamTd,doTeamTd,ActionTd)
+                document.querySelector('.goals-display').appendChild(tr)
+
+            });
+};
+
+goalenterDisplay();
+
+const Enter=()=>{
+                let upname = allmatchs[2].pName
+                let dname = allmatchs[2].dName
+                let name = document.querySelector('.name-input').value
+                let Bodd = document.querySelector('.upodd-input').value
+                let upBet = document.querySelector('.upteambet-input').value 
+                let doBet =document.querySelector('.downteambet-input').value
+                if(name =="" || Bodd ==""){
+                if(confirm("Please enter name or odd")){
+                    return 
+                }
+             }
+                if(upBet =="" && doBet =="" || upBet !="" && doBet != ""){
+                if(confirm("Please enter correct bet")){
+                    return 
+                }
+             }
+         
+        let myObj = {name,Bodd,upBet,doBet}
+
+             body.push(
+                myObj,
+             )
+             localStorage.setItem('body3',JSON.stringify(body))
+             
+             document.querySelector('.name-input').value =''
+             document.querySelector('.upteambet-input').value =''
+             document.querySelector('.downteambet-input').value =''
+             refreshEnterDisplay(document.querySelector('.body-display'));
+        };
+
+const goalEnter=()=>{
+                let upname = allmatchs[2].pName
+                let dname = allmatchs[2].dName
+                let name = document.querySelector('.goalname-input').value
+                let Godd = document.querySelector('.goalodd-input').value
+                let GupBet = document.querySelector('.upgoalbet-input').value 
+                let GdoBet =document.querySelector('.dogoalbet-input').value
+                if(name =="" || Godd == ""){
+                if(confirm("Please enter name or odd")){
+                    return 
+                }
+             }
+                if(GupBet =="" && GdoBet ==""){
+                if(confirm("Please enter your bet")){
+                    return 
+                }
+             }
+                
+             let myObj ={name,Godd,GupBet,GdoBet};
+             goals.push(
+                myObj,
+             )
+             localStorage.setItem('goals3',JSON.stringify(goals))
+             document.querySelector('.goalname-input').value =''
+             document.querySelector('.upgoalbet-input').value =''
+             document.querySelector('.dogoalbet-input').value =''
+             refreshGoalDisplay();
+        };
+
+const refreshEnterDisplay = () => {
+    let html=''
+            body.forEach((ele,index) => {
+                html +="<tr>"
+                html +=`
+                 <td>${ele.name}</td>
+                 <td>${ele.Bodd}</td>
+                 <td>${ele.upBet}</td>
+                 <td>${ele.doBet}</td>
+                 <td><button onclick='Remove(${index})'>Delete</button></td>
+                `
+                html +="</tr>"
+                document.querySelector('.body-display').innerHTML = html
+            });
+        };
+
+const refreshGoalDisplay = () => {
+    let html=''
+            goals.forEach((ele,index) => {
+                html +="<tr>"
+                html +=`
+                 <td>${ele.name}</td>
+                 <td>${ele.Godd}</td>
+                 <td>${ele.GupBet}</td>
+                 <td>${ele.GdoBet}</td>
+                 <td><button onclick='goalRemove(${index})'>Delete</button></td>
+                `
+                html +="</tr>"
+                document.querySelector('.goals-display').innerHTML = html
+            });
+        };
+
+const Remove=(index)=>{
+    body.splice(index,1)
+    localStorage.setItem('body3',JSON.stringify(body))
+    document.location.reload()
+}
+const goalRemove=(index)=>{
+    goals.splice(index,1)
+    localStorage.setItem('goals3',JSON.stringify(goals))
+    document.location.reload()
+}
+
+const Save=(bet)=>{
+    document.querySelector('.edit').classList.remove('inactive')
+    document.querySelector('.save-btn').classList.add('inactive')
+    let upscore = document.querySelector('.upscore-input').value;
+    let doscore = document.querySelector('.doscore-input').value;
+    if(body == "" && goals == ""){
+        window.location.reload()
+        return
+    }
+    if(upscore == "" || doscore == ""){
+        alert('Enter Goal score')
+        window.location.reload()
+        return
+    }
+    matchscore.push({home:upscore,away:doscore})
+    localStorage.setItem('score3',JSON.stringify(matchscore))
+
+    let oddProperty = [
+        '1=','1+05','1+10','1+15','1+20','1+25','1+30','1+35','1+40','1+45','1+50','1+55','1+60','1+65','1+70','1+75','1+80','1+85','1+90','1+95','1+',
+        '2=','2+05','2+10','2+15','2+20','2+25','2+30','2+35','2+40','2+45','2+50','2+55','2+60','2+65','2+70','2+75','2+80','2+85','2+90','2+95','2+',
+        '3=','3+05','3+10','3+15','3+20','3+25','3+30','3+35','3+40','3+45','3+50','3+55','3+60','3+65','3+70','3+75','3+80','3+85','3+90','3+95','3+',
+        '4=','4+05','4+10','4+15','4+20','4+25','4+30','4+35','4+40','4+45','4+50','4+55','4+60','4+65','4+70','4+75','4+80','4+85','4+90','4+95','4+',
+        '5=','5+05','5+10','5+15','5+20','5+25','5+30','5+35','5+40','5+45','5+50','5+55','5+60','5+65','5+70','5+75','5+80','5+85','5+90','5+95','5+',
+        '6=','6+05','6+10','6+15','6+20','6+25','6+30','6+35','6+40','6+45','6+50','6+55','6+60','6+65','6+70','6+75','6+80','6+85','6+90','6+95','6+',
+        '7=','7+05','7+10','7+15','7+20','7+25','7+30','7+35','7+40','7+45','7+50','7+55','7+60','7+65','7+70','7+75','7+80','7+85','7+90','7+95','7+',
+        '=0','=-05','=-10','=-15','=-20','=-25','=-30','=-35','=-40','=-45','=-50','=-55','=-60','=-65','=-70','=-75','=-80','=-85','=-90','=-95','=-',
+        '1-05','1-10','1-15','1-20','1-25','1-30','1-35','1-40','1-45','1-50','1-55','1-60','1-65','1-70','1-75','1-80','1-85','1-90','1-95','1-',
+        '2-05','2-10','2-15','2-20','2-25','2-30','2-35','2-40','2-45','2-50','2-55','2-60','2-65','2-70','2-75','2-80','2-85','2-90','2-95','2-',
+        '3-05','3-10','3-15','3-20','3-25','3-30','3-35','3-40','3-45','3-50','3-55','3-60','3-65','3-70','3-75','3-80','3-85','3-90','3-95','3-',
+        '4-05','4-10','4-15','4-20','4-25','4-30','4-35','4-40','4-45','4-50','4-55','4-60','4-65','4-70','4-75','4-80','4-85','4-90','4-95','4-',
+        '5-05','5-10','5-15','5-20','5-25','5-30','5-35','5-40','5-45','5-50','5-55','5-60','5-65','5-70','5-75','5-80','5-85','5-90','5-95','5-',
+        '6-05','6-10','6-15','6-20','6-25','6-30','6-35','6-40','6-45','6-50','6-55','6-60','6-65','6-70','6-75','6-80','6-85','6-90','6-95','6-',
+        '7-05','7-10','7-15','7-20','7-25','7-30','7-35','7-40','7-45','7-50','7-55','7-60','7-65','7-70','7-75','7-80','7-85','7-90','7-95','7-',
+    ];
+
+    let oddValue = [
+        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90,0.95, 1,
+        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90,0.95, 1,
+        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90,0.95, 1,
+        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90,0.95, 1,
+        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90,0.95, 1,
+        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90,0.95, 1,
+        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90,0.95, 1,
+          0,-0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+         -0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+         -0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+         -0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+         -0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+         -0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+         -0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+         -0.05, -0.10, -0.15, -0.20, -0.25, -0.30, -0.35, -0.40, -0.45, -0.50, -0.55, -0.60, -0.65, -0.70, -0.75, -0.80, -0.85, -0.90,-0.95, -1,
+    ];
+
+    let Result = 0;
+body.forEach(bet=>{
+    let upname = allmatchs[2].pName
+    let dname = allmatchs[2].dName
+    
+    if((upscore-doscore) > bet.Bodd.charAt(0)){
+            if(bet.doBet ==''){
+                   Result = bet.upBet * 1 
+                   let obj ={name:bet.name,team:upname,upscore,Result}
+                   result.push(obj)
+                   localStorage.setItem('result3',JSON.stringify(result))
+            }
+            if(bet.upBet ==''){
+               Result = bet.doBet * -1
+                let obj ={name:bet.name,team:dname,doscore,Result}
+               result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+        };
+
+    if((upscore-doscore) < bet.Bodd.charAt(0)){
+            if(bet.doBet ==''){
+               Result = bet.upBet * -1
+                let obj ={name:bet.name,team:upname,upscore,Result}
+               result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+            if(bet.upBet ==''){
+               Result = bet.doBet * 1
+                let obj ={name:bet.name,team:dname,doscore,Result}
+               result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+        };
+
+    //    for  =-
+        if(bet.Bodd.charAt(0) == '='){
+            if(upscore == doscore){
+                let combinedObject = {};
+                    for (let i = 0; i < oddProperty.length; i++){
+                        combinedObject[oddProperty[i]] = oddValue[i];
+                        if(bet.Bodd == oddProperty[i] && bet.doBet == ""){
+                           Result = bet.upBet * oddValue[i]
+                            let obj ={name:bet.name,team:upname,upscore,Result}
+                           result.push(obj)
+                            localStorage.setItem('result3',JSON.stringify(result))
+                        }
+                        if(bet.Bodd === oddProperty[i] && bet.upBet == ''){
+                           Result = -bet.doBet * oddValue[i]
+                            let obj ={name:bet.name,team:dname,doscore,Result}
+                           result.push(obj)
+                            localStorage.setItem('result3',JSON.stringify(result))
+                        }
+                    }
+            };
+            if((upscore-doscore)>0){
+            if(bet.doBet ==''){
+               Result = bet.upBet * 1
+                let obj ={name:bet.name,team:upname,upscore,Result}
+               result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+            if(bet.upBet ==''){
+               Result = bet.doBet * -1
+                let obj ={name:bet.name,team:dname,doscore,Result}
+               result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+        };
+
+            if((upscore-doscore) < 0){
+            if(bet.doBet ==''){
+               Result = bet.upBet * -1
+                let obj ={name:bet.name,team:upname,upscore,Result}
+               result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+            if(bet.upBet ==''){
+               Result = bet.doBet * 1
+                let obj ={name:bet.name,team:dname,doscore,Result}
+               result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+        };
+          
+        }
+        // for 1+
+        if((upscore-doscore) == bet.Bodd.charAt(0)){
+            let combinedObject = {};
+                for (let i = 0; i <oddProperty.length; i++){
+                     combinedObject[oddProperty[i]] = oddValue[i];
+                    if(bet.Bodd ==oddProperty[i] && bet.doBet == ""){
+                       Result = bet.upBet * oddValue[i]
+                        let obj ={name:bet.name,team:upname,upscore,Result}
+                       result.push(obj)
+                        localStorage.setItem('result3',JSON.stringify(result))
+                    }
+                    if(bet.Bodd === oddProperty[i] && bet.upBet == ''){
+                       Result = -bet.doBet * oddValue[i]
+                        let obj ={name:bet.name,team:dname,doscore,Result}
+                       result.push(obj)
+                        localStorage.setItem('result3',JSON.stringify(result))
+                    }
+                }
+        }         
+});
+
+    let totalGoals = (+upscore + +doscore)
+    let gupname = allmatchs[2].pName + " Goal+↑"
+    let gdoname = allmatchs[2].pName + " Goal+↓"
+
+goals.forEach(bet=>{
+        if(bet.Godd.charAt(0) < totalGoals){
+            if(bet.GdoBet ==''){
+                Result = bet.GupBet * 1
+                let obj ={name:bet.name,team:gupname,totalGoals,Result}
+                result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+            if(bet.GupBet ==''){
+                Result = bet.GdoBet * -1
+                let obj ={name:bet.name,team:gdoname,totalGoals,Result}
+                result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+        };
+
+        if(bet.Godd.charAt(0) > totalGoals){
+            if(bet.GdoBet ==''){
+                Result = bet.GupBet * -1
+                let obj ={name:bet.name,team:gupname,totalGoals,Result}
+                result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+            if(bet.GupBet ==''){
+                Result = bet.GdoBet * 1
+                let obj ={name:bet.name,team:gdoname,totalGoals,Result}
+                result.push(obj)
+                localStorage.setItem('result3',JSON.stringify(result))
+            }
+       };
+
+
+        if(bet.Godd.charAt(0) == totalGoals){
+            let Gup_combinedObject = {};
+                for (let i = 0; i < oddProperty.length; i++){
+                    Gup_combinedObject[oddProperty[i]] = oddValue[i];
+                    if(bet.Godd === oddProperty[i] && bet.GdoBet == ''){
+                        Result = bet.GupBet * oddValue[i]
+                        let obj ={name:bet.name,team:gupname,totalGoals,Result}
+                        result.push(obj)
+                        localStorage.setItem('result3',JSON.stringify(result))
+                    }
+                    if(bet.Godd === oddProperty[i] && bet.GupBet == ''){
+                        Result = -bet.GdoBet * oddValue[i]
+                        let obj ={name:bet.name,team:gdoname,totalGoals,Result}
+                        result.push(obj)
+                        localStorage.setItem('result3',JSON.stringify(result))
+                    }
+                }
+        };
+
+        if(bet.Godd.charAt(0) == '='){
+            if(totalGoals == 0){
+                let Gup_combinedObject = {};
+                    for (let i = 0; i < oddProperty.length; i++){
+                        Gup_combinedObject[oddProperty[i]] = oddValue[i];
+                        if(bet.Godd === oddProperty[i] && bet.GdoBet == ''){
+                            Result = bet.GupBet * oddValue[i]
+                            let obj ={name:bet.name,team:gupname,totalGoals,Result}
+                            result.push(obj)
+                            localStorage.setItem('result3',JSON.stringify(result))
+                        }
+                        if(bet.Godd === oddProperty[i] && bet.GupBet == ''){
+                            Result = -bet.GdoBet * oddValue[i]
+                            let obj ={name:bet.name,team:gdoname,totalGoals,Result}
+                            result.push(obj)
+                            localStorage.setItem('result3',JSON.stringify(result))
+                        }
+                    }
+            };
+
+           if(totalGoals>0){
+                if(bet.GdoBet ==''){
+                    Result = bet.GupBet * 1
+                    let obj ={name:bet.name,team:gupname,totalGoals,Result}
+                    result.push(obj)
+                    localStorage.setItem('result3',JSON.stringify(result))
+                }
+                if(bet.GupBet ==''){
+                    Result = bet.GdoBet * -1
+                    let obj ={name:bet.name,team:dogname,totalGoals,Result}
+                    result.push(obj)
+                    localStorage.setItem('result3',JSON.stringify(result))
+                }
+           }
+        };
+    });
+    window.location.reload()
+};
+const saveDisplay = ()=>{
+   
+    if(matchscore == ''){
+        document.querySelector('.edit').classList.add('inactive')
+        document.querySelector('.save-btn').classList.remove('inactive')
+        document.querySelector('.enter-btn').classList.remove('inactive')
+        document.querySelector('.goalenter-btn').classList.remove('inactive')
+        document.querySelector('.home-score').textContent = ''
+        document.querySelector('.away-score').textContent = ''
+        let btns = document.querySelectorAll('.delete-btn')
+        btns.forEach(btn=>{
+        btn.classList.remove('inactive')
+    })
+    }
+    if(matchscore != ''){
+        document.querySelector('.edit').classList.remove('inactive')
+        document.querySelector('.save-btn').classList.add('inactive')
+        document.querySelector('.enter-btn').classList.add('inactive')
+        document.querySelector('.goalenter-btn').classList.add('inactive')
+        document.querySelector('.upscore-input').classList.add('inactive')
+        document.querySelector('.doscore-input').classList.add('inactive')
+        let btns = document.querySelectorAll('.delete-btn')
+        btns.forEach(btn=>{
+        btn.classList.add('inactive')
+    })
+    document.querySelector('.home-score').textContent = matchscore[0].home
+    document.querySelector('.away-score').textContent = matchscore[0].away
+    }
+};
+
+const Edit =()=>{
+    let btns = document.querySelectorAll('.delete-btn')
+        btns.forEach(btn=>{
+        btn.classList.remove('inactive')
+    })
+    document.querySelector('.upscore-input').classList.remove('inactive')
+    document.querySelector('.doscore-input').classList.remove('inactive')
+    document.querySelector('.enter-btn').classList.remove('inactive')
+    document.querySelector('.goalenter-btn').classList.remove('inactive')
+    document.querySelector('.save-btn').classList.remove('inactive')
+    document.querySelector('.edit').classList.add('inactive')
+    document.querySelector('.home-score').textContent = ""
+    document.querySelector('.away-score').textContent = ""
+    matchscore.splice(0,matchscore.length)
+    result.splice(0,result.length)
+    localStorage.setItem('score3',JSON.stringify(matchscore))
+    localStorage.setItem('result3',JSON.stringify(result))
+    document.querySelector('.upscore-input').value = ""
+    document.querySelector('.doscore-input').value = ""
+}
+window.onload = saveDisplay()
+</script>
+</body>
+</html>

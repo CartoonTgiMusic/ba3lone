@@ -1,0 +1,164 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.nav-bar{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    padding: 0 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    background: black;
+    button{
+        color: white;
+        background:none;
+        border:none;
+        padding: 5px;
+    }
+}
+.logo{
+    width: 40px;
+    height: 40px;
+    img{
+        width: 100%;
+    }
+}
+.main-ctn{
+    margin-top: 12px;
+    display: flex;
+}
+.teamsiframe-display{
+    width: 100%;
+    display: flex;
+}
+.display{
+    width: calc(100vw - 150px);
+}
+.settinglists-display{
+    background-color: rgb(255, 255, 255);
+    margin-top: 30px;
+    position: absolute;
+    right: 0;
+    padding-right: 5px;
+    li{
+       list-style: none;
+       text-align: end;
+       cursor: pointer;
+       font-size: small;
+    }
+}
+.list-btn:hover{
+    background-color: rgb(0, 255, 0);
+}
+.matchcreate-ctn,.customercreate-ctn{
+    margin-top: 30px;
+    display: grid;
+    gap: 5px;
+    justify-content: center;
+    input{
+        width: 100%;
+    }
+    button{
+        background-color: blue;
+        color: white;
+        border-color: white;
+        height: 30px;
+        width: 100%;
+    }
+    .save-btn,.customersave-btn{
+    background: rgb(0, 255, 0);
+    color: black;
+  }
+}
+
+.customer-display{
+    margin-top: 30px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(25, 0, 255);
+    .caution{
+        padding: 5px;
+        text-align: center;
+        font-size: 1.2rem;
+        text-decoration: underline;
+    }
+}
+
+.customer-div{
+    padding:2px 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.removecustomer-btn{
+    background: red;
+    color: white;
+    width: 50px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.customer-details{
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+}
+.dname{
+    margin: 3px 0;
+}
+.teamlists-display{
+    margin-top: 30px;
+    background-color: black;
+    color: white;
+    width: 200px;
+    font-size: 14px;
+    button{
+        height: inherit;
+        background-color: yellow;
+    }
+}
+
+iframe{
+    width:100%;
+    margin-top: 30px;
+    height:100vh;
+    border: 0;
+}
+
+.match-title-div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left:5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.match-title-div:hover{
+    
+    background-color: green;
+}
+.customer-div:hover{
+    background-color: rgb(203, 203, 203);
+}
+
+.edit-btn,.sub-btn{
+    font-size: 12px;
+}
+/* Hide the arrow buttons on Chrome, Safari, Edge, and Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+button:hover{
+    transform: scale(0.9);
+}
+.inactive{
+    display: none;
+}
+.active{
+    background-color: green;
+}
