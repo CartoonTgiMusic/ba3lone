@@ -19,6 +19,7 @@ let seealliFrame = document.createElement('iframe')
     document.querySelector('.back-btn').classList.remove('inactive')
     document.querySelector('.setting-btn').classList.add('inactive')
   });
+
   document.querySelector('.back-btn').addEventListener('click',()=>{
     window.location.reload()
   });
@@ -29,6 +30,7 @@ settingBtns.forEach((btn,index)=>{
   btn.addEventListener('click',()=>{
     settingBtns.forEach(btns=>{
       btns.style.color = 'black'
+      document.querySelector('.settinglists-display').classList.add('inactive')
     })
     btn.style.color = 'red'
     displays.forEach(dis=>{
@@ -43,14 +45,13 @@ settingBtns.forEach((btn,index)=>{
 document.querySelector('.for-edit-btn').addEventListener('click',()=>{
   document.querySelector('.matchcreate-ctn').classList.remove('inactive')
   document.querySelector('.teamlists-display').classList.remove('inactive')
-  document.querySelector('.settinglists-display').classList.add('inactive')
   document.querySelector('.add-btn').classList.add('inactive')
   document.querySelector('.save-btn').classList.add('inactive')
   let btns = document.querySelectorAll('.edit-btn')
   btns.forEach(btn=>{
     btn.classList.remove('inactive')
   })
-})
+});
 
 function focusNext(event,next){
    if(event.key === 'Enter'){
@@ -72,6 +73,7 @@ document.getElementById('focus7').addEventListener('keydown',(e)=>{
   }
   addTeam()
 });
+
 let navBtns = document.querySelectorAll('.nav-bar button')
 navBtns.forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -88,23 +90,7 @@ document.querySelector('.seeall-btn').addEventListener('click',()=>{
   })
   document.querySelector('.see-all').classList.remove('inactive')
   document.querySelector('.teamlists-display').classList.add('inactive')
-  document.querySelector('.settinglists-display').classList.add('inactive')
-})
-
-const showCustomer=()=>{
-  document.querySelectorAll('.iframes').forEach(frame=>{
-    frame.classList.add('inactive')
-  })
-  document.querySelector('.customer-ctn').classList.remove('inactive')
-  document.querySelector('.customer-display').classList.remove('inactive')
-  document.querySelector('.teamlists-display').classList.add('inactive')
-}
-const showMatch =()=>{
-  document.querySelector('.customer-ctn').classList.add('inactive')
-  document.querySelector('.see-all').classList.add('inactive')
-  document.querySelector('.customer-display').classList.add('inactive')
-  document.querySelector('.teamlists-display').classList.remove('inactive')
-}
+});
 
 const customerDisplay=()=>{
   let html=''
@@ -120,7 +106,8 @@ const customerDisplay=()=>{
         html +="</div >"
         document.querySelector('.customer-display').innerHTML =` <div class='caution'>Customers</div>` + html
     })
-}
+};
+
 customerDisplay()
 
 const addCustomers=()=>{
@@ -165,12 +152,14 @@ const refreshCustomerDisplay=()=>{
       html +="</div >"
       document.querySelector('.customer-display').innerHTML = html
   })
-}
+};
+
 const removeCustomer=(index)=>{
     customers.splice(index,1)
     localStorage.setItem('customers',JSON.stringify(customers))
     refreshCustomerDisplay()
-}
+};
+
 const addTeam=()=>{
     let pName = document.querySelector('.upname-input').value
     let dName = document.querySelector('.doname-input').value
@@ -198,7 +187,8 @@ const addTeam=()=>{
 
 const Save=()=>{
   window.location.reload()
-}
+};
+
 const refresh=()=>{
   let html=''
   allmatchs.forEach((vs,index) => {
@@ -212,6 +202,7 @@ const refresh=()=>{
       document.querySelector('.teamlists-display').innerHTML = html
   });
 };
+
 const showAddteam=()=>{
     let html=''
     allmatchs.forEach((vs,index) => {
@@ -227,12 +218,15 @@ const showAddteam=()=>{
         document.querySelector('.teamlists-display').innerHTML = html
     });
 };
+
 showAddteam();
 
 const matchTitles = document.querySelectorAll('.match-title')
 const iFrames = document.querySelectorAll('.iframes')
 matchTitles.forEach((title, index) => {
     title.addEventListener("click", () => {
+      document.querySelector('.teamlists-display').classList.add('inactive')
+      document.querySelector('.settinglists-display').classList.add('inactive')
       matchTitles.forEach((title) => {
         title.classList.remove('active');
       });
@@ -244,8 +238,11 @@ matchTitles.forEach((title, index) => {
     });
  });
 
+ document.querySelector('.logo').addEventListener('click',()=>{
+  window.location.reload()
+ });
+
  const Edit=(index)=>{
-  
    let editBtns = document.querySelectorAll('.edit-btn')
    editBtns.forEach(btn=>{
      btn.classList.add('inactive')
@@ -256,15 +253,15 @@ matchTitles.forEach((title, index) => {
       title.classList.add('inactive')
     })
     matchTitles[index].classList.remove('inactive')
-  })
+  });
   
   document.querySelector('.upname-input').value = allmatchs[index].pName
   document.querySelector('.doname-input').value = allmatchs[index].dName
   document.querySelectorAll('.sub-btn')[index].classList.remove('inactive')
-
- }
+ };
 
  const Submit=(index)=>{
+  window.location.reload()
   allmatchs[index].pName = document.querySelector('.upname-input').value
   allmatchs[index].dName = document.querySelector('.doname-input').value
   if(allmatchs[index].pName == "" || allmatchs[index].dName == ""){
@@ -280,8 +277,6 @@ matchTitles.forEach((title, index) => {
   localStorage.setItem('result'+(index+1),JSON.stringify(newResult))
   document.querySelector('.upname-input').value = ''
   document.querySelector('.doname-input').value = ''
-  window.location.reload()
-  showAddteam()
- }
+ };
  
 
