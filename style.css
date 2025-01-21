@@ -117,9 +117,14 @@
     width: 100%;
     font-size: 14px;
     button{
-        height: inherit;
+        width: 100px;
+        height: 30px;
         background-color: yellow;
     }
+}
+.change-text{
+    text-align: center;
+    padding-bottom: 10px;
 }
 
 iframe{
@@ -133,11 +138,13 @@ iframe{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left:5px;
-    cursor: pointer;
-    padding: 5px;
+    margin: 3px 5px;
 }
-.match-title-div:hover{
+.match-title{
+    cursor: pointer;
+    user-select: none;
+}
+.match-title:hover{
     background-color: rgb(0, 255, 0);
 }
 .customer-div:hover{

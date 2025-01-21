@@ -43,8 +43,9 @@ settingBtns.forEach((btn,index)=>{
 });
 
 document.querySelector('.for-edit-btn').addEventListener('click',()=>{
-  document.querySelector('.matchcreate-ctn').classList.remove('inactive')
+  document.querySelector('.main-ctn').style.display = 'grid'
   document.querySelector('.teamlists-display').classList.remove('inactive')
+  document.querySelector('.change-text').innerHTML = 'ပွဲစဉ်စားရင်းပြုပြင်ရန်'
   document.querySelector('.add-btn').classList.add('inactive')
   document.querySelector('.save-btn').classList.add('inactive')
   let btns = document.querySelectorAll('.edit-btn')
@@ -225,6 +226,8 @@ const matchTitles = document.querySelectorAll('.match-title')
 const iFrames = document.querySelectorAll('.iframes')
 matchTitles.forEach((title, index) => {
     title.addEventListener("click", () => {
+      document.querySelector('.setting-btn').classList.add('inactive')
+      document.querySelector('.back-btn').classList.remove('inactive')
       document.querySelector('.teamlists-display').classList.add('inactive')
       document.querySelector('.settinglists-display').classList.add('inactive')
       matchTitles.forEach((title) => {
@@ -243,6 +246,7 @@ matchTitles.forEach((title, index) => {
  });
 
  const Edit=(index)=>{
+  document.querySelector('.matchcreate-ctn').classList.remove('inactive')
    let editBtns = document.querySelectorAll('.edit-btn')
    editBtns.forEach(btn=>{
      btn.classList.add('inactive')
