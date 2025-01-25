@@ -85,7 +85,9 @@ body{
      </div>
     <div class="seeall-container"></div>
     <script>
+
 const customers = JSON.parse(localStorage.getItem('customers')) || []
+const mainlist = JSON.parse(localStorage.getItem('mainlist')) || []
 const result1 = JSON.parse(localStorage.getItem('result1')) || []
 const result2 = JSON.parse(localStorage.getItem('result2')) || []
 const result3 = JSON.parse(localStorage.getItem('result3')) || []
@@ -97,6 +99,9 @@ const result8 = JSON.parse(localStorage.getItem('result8')) || []
 const result9 = JSON.parse(localStorage.getItem('result9')) || []
 const result10 = JSON.parse(localStorage.getItem('result10')) || []
 const result11 = JSON.parse(localStorage.getItem('result11')) || []
+const result12 = JSON.parse(localStorage.getItem('result12')) || []
+
+
 
 
 // Combine the arrays
@@ -170,6 +175,13 @@ let finalResult = Object.keys(groupedByFinal).map(key => ({
   name: key.charAt(0).toUpperCase() + key.slice(1),
   items: groupedByFinal[key]
 }));
+mainlist.push(finalResult)
+localStorage.setItem('mainlist',JSON.stringify(mainlist))
+if(mainlist.length >0){
+  mainlist.splice(0,mainlist.length-1)
+}
+localStorage.setItem('mainlist',JSON.stringify(mainlist))
+
 
 const container = document.querySelector('.seeall-container');
 const seeallDisplay=()=>{
