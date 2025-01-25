@@ -214,7 +214,7 @@ const showAddteam=()=>{
            </div>
         `
         html += `<button class="edit-btn inactive" onclick="Edit(${index})">Edit</button>`
-        html += `<button class="sub-btn inactive" onclick="Submit(${index})">Sub</button>`
+        html += `<button class="sub-btn inactive" onclick="Submit(${index})">Submit</button>`
         html +="</div >"
         document.querySelector('.teamlists-display').innerHTML = html
     });

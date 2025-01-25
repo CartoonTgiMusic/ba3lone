@@ -14,41 +14,39 @@
     </div>
     <div class="main-ctn">
         <div class="teamlists-display"> </div>
-        <div class="teamsiframe-display">
-        </div>
+        <div class="teamsiframe-display"></div>
         <div class="toggle-display inactive">
+            <div class="matchcreate-ctn display inactive ">
+               <div class="change-text">ပွဲစဉ်အသစ်ထည့်ရန်</div>
+               <input type="text" class="upname-input" placeholder="Up team" id="focus5" onkeydown="focusNext(event, 'focus6')">
+               <input type="text" class="doname-input" placeholder="Down team" id="focus6" onkeydown="focusNext(event, 'focus7')">
+               <button onclick="addTeam()" id="focus7" class="add-btn" onkeydown="focusNext(event, 'focus5')">Add</button>
+               <button onclick="Save()" class="save-btn">Save</button>
+          </div>
             <div class="customercreate-ctn display inactive ">
-                <div>ထိုးသားစားရင်းထည့်ရန်</div>
+                <div class="text">ထိုးသားစားရင်းထည့်ရန်</div>
                     <input type="text" class="customer-input" placeholder="name" id="focus1" onkeydown="focusNext(event, 'focus2')">
                          <input type="number" class="plus-com" placeholder="+ com" id="focus2" onkeydown="focusNext(event, 'focus3')">
                          <input type="number" class="minus-com" placeholder="- com" id="focus3" onkeydown="focusNext(event, 'focus4')">
                     <button onclick="addCustomers()" id="focus4" onkeydown="focusNext(event, 'focus1')">Add</button>
                     <button onclick="Save()" class="customersave-btn">Save</button>
              </div>
-             <div class="matchcreate-ctn display inactive ">
-                <div class="change-text">ပွဲစဉ်အသစ်ထည့်ရန်</div>
-                <input type="text" class="upname-input" placeholder="up team" id="focus5" onkeydown="focusNext(event, 'focus6')">
-                <input type="text" class="doname-input" placeholder="down team" id="focus6" onkeydown="focusNext(event, 'focus7')">
-                <button onclick="addTeam()" id="focus7" class="add-btn" onkeydown="focusNext(event, 'focus5')">Add</button>
-                <button onclick="Save()" class="save-btn">Save</button>
-           </div>
-            <div class="customer-display display inactive ">
-
-            </div>
-            <div class="seeall-iframe display inactive">
-            </div>
+            <div class="customer-display display inactive "></div>
+            <div class="seeall-iframe display inactive"></div>
             <div class="display inactive"></div>
         </div>
         <div class="settinglists-display inactive">
-            <li class="list-btn">ထိုးသားစားရင်းထည့်ရန်</li>
             <li class="list-btn">ပွဲစဉ်အသစ်ထည့်ရန်</li>
+            <li class="list-btn">ထိုးသားစားရင်းထည့်ရန်</li>
             <li class="list-btn showcustomer-btn">ထိုးသားစားရင်းကြည့်ရန်</li>
             <li class="list-btn seeall-btn">စာရင်းများကြည့်ရန်</li>
             <li class="list-btn for-edit-btn">ပွဲစဉ်စာရင်းပြုပြင်ရန်</li>
         </div>
     </div>
     
-    <script src="app.js"></script>
+    <script src="app.js">
+        
+    </script>
     <!-- <iframe src="seeall.html" frameborder="0"  height="100vh" class="see-all inactive"></iframe> -->
 </body>
 </html>

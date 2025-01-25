@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>match1</title>
+    <title>match3</title>
 <style>
  *{
     padding: 0;
@@ -40,7 +40,9 @@
       tr{
 
           th{
-              border: 2px solid rgb(255, 0, 0);
+              border: 1px solid rgb(255, 0, 0);
+              background-color: rgb(0, 0, 0);
+              color: white;
               padding: 2px 0px;
               text-align: center;
               font-size: 14px;
@@ -48,19 +50,21 @@
               input{
                   width:100%;
                   border: none;
-                  padding-left: 5px;
-                  background: none;
+                  background: white;
                   outline: none;
+                  padding:2px 5px;
               }
              
+          }
+          .blue{
+            background-color: blue;
           }
       }
         td{
             border-bottom: 1px dotted blue;
-            background-color:rgb(255, 255, 255);
+            background-color: white;
+            padding-top: 5px;
             text-align: center;
-            padding: 2px;
-            font-size: 14px;
             button{
                 background: red;
             }
@@ -95,7 +99,7 @@
 
 }
 button:hover{
-    transform: scale(0.8);
+    transform: scale(1.1);
 }
 /* Hide the arrow buttons on Chrome, Safari, Edge, and Opera */
 input[type=number]::-webkit-inner-spin-button,
@@ -128,7 +132,7 @@ input[type=number]::-webkit-outer-spin-button {
                 <th><input type="text" class="upodd-input" id="input2" onkeydown="focusNextInput(event, 'input3')"></th>
                 <th> <input type="number" class="upteambet-input" id="input3" onkeydown="focusNextInput(event, 'input4')"></th>
                 <th><input type="number" class="downteambet-input" id="input4" onkeydown="focusNextInput(event, 'input5')"> </th>
-                <th><button  onclick="Enter()" id="input5" class="enter-btn" onkeydown="focusNextInput(event, 'input6')">Enter</button></th>
+                <th class="blue"><button  onclick="Enter()" id="input5" class="enter-btn" onkeydown="focusNextInput(event, 'input6')">Enter</button></th>
             </tr>
         </thead>
         <tbody class="body-display"></tbody>
@@ -150,7 +154,7 @@ input[type=number]::-webkit-outer-spin-button {
                 <th><input type="text" class="goalodd-input" id="input7" onkeydown="focusNextInput(event, 'input8')" > </th>
                 <th><input type="number" class="upgoalbet-input" id="input8" onkeydown="focusNextInput(event, 'input9')" ></th>
                 <th><input type="number" class="dogoalbet-input" id="input9" onkeydown="focusNextInput(event, 'input10')" ></th>
-                <th><button  onclick="goalEnter()" id="input10" class="goalenter-btn" onkeydown="focusNextInput(event, 'input1')">Enter</button></th>
+                <th class="blue"><button  onclick="goalEnter()" id="input10" class="goalenter-btn" onkeydown="focusNextInput(event, 'input1')">Enter</button></th>
             </tr>
         </thead>
         <tbody class="goals-display"></tbody>

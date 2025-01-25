@@ -32,9 +32,7 @@
     margin-top: 12px;
     display: flex;
 }
-.see-all{
-    padding: 5px;
-}
+
 .teamsiframe-display{
     width: 100%;
     display: flex;
@@ -49,6 +47,7 @@
     right: 0;
     padding-right: 5px;
     li{
+        margin-bottom: 5px;
        list-style: none;
        text-align: end;
        cursor: pointer;
@@ -65,6 +64,7 @@
     justify-content: center;
     input{
         width: 100%;
+        padding: 5px;
     }
     button{
         background-color: blue;
@@ -83,6 +83,10 @@
     margin-top: 30px;
     background-color: rgb(255, 255, 255);
     color: rgb(25, 0, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .caution{
         padding: 5px;
         text-align: center;
@@ -92,11 +96,15 @@
 }
 
 .customer-div{
+    min-width: 350px;
     padding:2px 5px;
+    border-bottom: 1px dotted blue;
     display: flex;
     justify-content: space-between;
 }
-
+.text{
+    text-align: center;
+}
 .removecustomer-btn{
     background: red;
     color: white;
@@ -119,7 +127,11 @@
     button{
         width: 100px;
         height: 30px;
+        border-color: white;
         background-color: yellow;
+    }
+    .sub-btn{
+        background-color: rgb(0, 255, 0);
     }
 }
 .change-text{
@@ -138,7 +150,7 @@ iframe{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 3px 5px;
+    margin: 5px;
 }
 .match-title{
     cursor: pointer;
