@@ -1,6 +1,7 @@
 const allmatchs = JSON.parse(localStorage.getItem('allmatchs'))||[]
 const customers = JSON.parse(localStorage.getItem('customers')) || []
 const result1 = JSON.parse(localStorage.getItem('result1')) || []
+// const mainlists = JSON.parse(localStorage.getItem('mainlists')) || []
 
 let seealliFrame = document.createElement('iframe')
   seealliFrame.className=('see-all')
@@ -284,3 +285,43 @@ matchTitles.forEach((title, index) => {
  };
  
 
+ document.querySelector('.reset-btn').addEventListener('click',()=>{
+ // Assuming 'localStorageKeyToPreserve' is the key you want to keep
+const localStorageKeyToPreserve = 'customers';
+const localStorageKeyToPreserve1 = 'mainlist';
+
+// Copy the value of the key to keep
+const preservedValue = localStorage.getItem(localStorageKeyToPreserve);
+const preservedValue1 = localStorage.getItem(localStorageKeyToPreserve1);
+
+// Clear all keys in localStorage
+localStorage.clear();
+
+// Restore the preserved key
+if(preservedValue1 !==null){
+  localStorage.setItem(localStorageKeyToPreserve1, preservedValue1);
+}
+localStorage.setItem(localStorageKeyToPreserve, preservedValue);
+
+})
+// Assuming 'sourceKey1' and 'sourceKey2' are the keys you want to copy
+const sourceKey1 = 'mainlist';
+
+
+// New keys for the destination localStorage
+const destKey1 = 'mainlists';
+
+
+// Copy the values of the source keys
+const sourceValue1 = localStorage.getItem(sourceKey1);
+
+
+// Setting the values to the new keys
+if (sourceValue1 !== null) {
+    localStorage.setItem(destKey1, sourceValue1);
+}
+
+
+
+// Optional: Remove the original keys
+localStorage.removeItem(sourceKey1);
