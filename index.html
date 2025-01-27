@@ -9,6 +9,7 @@
 <body>
     <div class="nav-bar">
         <div class="logo"><img src="hollyBoard.png" alt=""></div>
+        <div class="date-div"></div>
         <button class="setting-btn">Setting</button>
         <button class="back-btn inactive">Back</button>
     </div>
@@ -16,6 +17,11 @@
         <div class="teamlists-display"> </div>
         <div class="teamsiframe-display"></div>
         <div class="toggle-display inactive">
+            <div class="datecreate-ctn display inactive ">
+               <div>နေ့စွဲထည့်ရန်</div>
+               <input type="date" class="date-input" placeholder=" 00/ 00/ 0000">
+               <button class="date-enterbtn" onclick="addDate()">Enter</button>
+          </div>
             <div class="matchcreate-ctn display inactive ">
                <div class="change-text">ပွဲစဉ်အသစ်ထည့်ရန်</div>
                <input type="text" class="upname-input" placeholder="Up team" id="focus5" onkeydown="focusNext(event, 'focus6')">
@@ -34,15 +40,18 @@
             <div class="customer-display display inactive "></div>
             <div class="seeall-iframe display inactive"></div>
             <div class="display inactive"></div>
+            <div class="alllists-iframe display inactive"></div>
             <div class="display inactive"></div>
         </div>
         <div class="settinglists-display inactive">
+            <li class="list-btn">နေ့စွဲထည့်ရန်</li>
             <li class="list-btn">ပွဲစဉ်အသစ်ထည့်ရန်</li>
             <li class="list-btn">ထိုးသားစားရင်းထည့်ရန်</li>
             <li class="list-btn showcustomer-btn">ထိုးသားစားရင်းကြည့်ရန်</li>
-            <li class="list-btn seeall-btn">စာရင်းများကြည့်ရန်</li>
+            <li class="list-btn seeall-btn">ယခုစာရင်းကြည့်ရန်</li>
             <li class="list-btn for-edit-btn">ပွဲစဉ်စာရင်းပြုပြင်ရန်</li>
-            <li class="list-btn reset-btn">စာရင်းများဖျက်ရန်</li>
+            <li class="list-btn all-lists">စာရင်းအားလုံးကြည့်ရန်</li>
+            <li class="list-btn reset-btn">Reset</li>
         </div>
     </div>
     

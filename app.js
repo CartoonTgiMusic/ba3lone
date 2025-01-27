@@ -1,13 +1,22 @@
+const date = JSON.parse(localStorage.getItem('date'))||[]
 const allmatchs = JSON.parse(localStorage.getItem('allmatchs'))||[]
 const customers = JSON.parse(localStorage.getItem('customers')) || []
 const result1 = JSON.parse(localStorage.getItem('result1')) || []
-// const mainlists = JSON.parse(localStorage.getItem('mainlists')) || []
+const mainlists = JSON.parse(localStorage.getItem('mainlists')) || []
+
+document.querySelector('.date-div').innerHTML = date
 
 let seealliFrame = document.createElement('iframe')
   seealliFrame.className=('see-all')
   seealliFrame.classList.add('inactive')
   seealliFrame.src = 'seeall.html'
   document.querySelector('.seeall-iframe').append(seealliFrame)
+
+let allList = document.createElement('iframe')
+  allList.className=('all-lists')
+  // allList.classList.add('inactive')
+  allList.src = 'alllists.html'
+  document.querySelector('.alllists-iframe').append(allList)
 
   document.querySelector('.setting-btn').addEventListener('click',()=>{
     iFrames.forEach((content) => {
@@ -94,6 +103,14 @@ document.querySelector('.seeall-btn').addEventListener('click',()=>{
   document.querySelector('.teamlists-display').classList.add('inactive')
 });
 
+document.querySelector('.reset-btn').addEventListener('click',()=>{
+  document.querySelectorAll('.iframes').forEach(frame=>{
+    frame.classList.add('inactive')
+  })
+  document.querySelector('.all-lists').classList.remove('inactive')
+  document.querySelector('.teamlists-display').classList.add('inactive')
+});
+
 const customerDisplay=()=>{
   let html=''
     customers.forEach((name,index) => {
@@ -161,7 +178,22 @@ const removeCustomer=(index)=>{
     localStorage.setItem('customers',JSON.stringify(customers))
     refreshCustomerDisplay()
 };
-
+const addDate=()=>{
+  let dates = document.querySelector('.date-input').value
+  
+  if(dates == ""){
+    alert('Enter date')
+    return
+  }
+  date.push(dates)
+  localStorage.setItem('date',JSON.stringify(date))
+  if(date.length>0){
+    date.splice(0,date.length-1)
+  }
+  localStorage.setItem('date',JSON.stringify(date))
+  document.querySelector('.date-input').value = ""
+  window.location.reload()
+}
 const addTeam=()=>{
     let pName = document.querySelector('.upname-input').value
     let dName = document.querySelector('.doname-input').value
@@ -283,45 +315,37 @@ matchTitles.forEach((title, index) => {
   document.querySelector('.upname-input').value = ''
   document.querySelector('.doname-input').value = ''
  };
- 
 
+//  for reset 
+ const mainlist = JSON.parse(localStorage.getItem('mainlist'))
  document.querySelector('.reset-btn').addEventListener('click',()=>{
+
  // Assuming 'localStorageKeyToPreserve' is the key you want to keep
 const localStorageKeyToPreserve = 'customers';
-const localStorageKeyToPreserve1 = 'mainlist';
+const localStorageKeyToPreserve2 = 'mainlists';
 
 // Copy the value of the key to keep
 const preservedValue = localStorage.getItem(localStorageKeyToPreserve);
-const preservedValue1 = localStorage.getItem(localStorageKeyToPreserve1);
+const preservedValue2 = localStorage.getItem(localStorageKeyToPreserve2);
 
 // Clear all keys in localStorage
 localStorage.clear();
 
 // Restore the preserved key
-if(preservedValue1 !==null){
-  localStorage.setItem(localStorageKeyToPreserve1, preservedValue1);
+if(preservedValue2 !==null){
+  localStorage.setItem(localStorageKeyToPreserve2, preservedValue2);
 }
 localStorage.setItem(localStorageKeyToPreserve, preservedValue);
+localStorage.setItem(localStorageKeyToPreserve2, preservedValue2);
+
+ 
+ if(mainlist == null){
+  return 
+ }else{
+  mainlists.unshift(mainlist)
+  localStorage.setItem('mainlists',JSON.stringify(mainlists))
+  localStorage.removeItem('mainlist')
+ }
 
 })
-// Assuming 'sourceKey1' and 'sourceKey2' are the keys you want to copy
-const sourceKey1 = 'mainlist';
 
-
-// New keys for the destination localStorage
-const destKey1 = 'mainlists';
-
-
-// Copy the values of the source keys
-const sourceValue1 = localStorage.getItem(sourceKey1);
-
-
-// Setting the values to the new keys
-if (sourceValue1 !== null) {
-    localStorage.setItem(destKey1, sourceValue1);
-}
-
-
-
-// Optional: Remove the original keys
-localStorage.removeItem(sourceKey1);

@@ -12,8 +12,10 @@
     padding: 0 5px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 5px;
     background: black;
+    color: white;
     button{
         color: white;
         background:none;
@@ -57,7 +59,8 @@
 .list-btn:hover{
     background-color: rgb(0, 255, 0);
 }
-.matchcreate-ctn,.customercreate-ctn{
+.matchcreate-ctn,.customercreate-ctn,.datecreate-ctn{
+    text-align: center;
     margin-top: 30px;
     display: grid;
     gap: 5px;
@@ -102,9 +105,7 @@
     display: flex;
     justify-content: space-between;
 }
-.text{
-    text-align: center;
-}
+
 .removecustomer-btn{
     background: red;
     color: white;

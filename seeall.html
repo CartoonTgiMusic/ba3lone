@@ -14,18 +14,15 @@ body{
     padding:0px 10px ;
     background-color: rgb(255, 255, 255);
 }
-.nav{
-  display: flex;
-  justify-content: space-between;
+.show-lists{
   padding: 3px 5px;
   font-size: 14px;
-  li{
     cursor: pointer;
     user-select: none;
     list-style: none;
     text-decoration: underline;
     color: blue;
-  }
+    text-align: end;
 }
 .seeall-display{
     margin-bottom: 2px;
@@ -79,9 +76,8 @@ body{
     </style>
 </head>
 <body>
-     <div class="nav">
-       <li class="showall-lists" onclick="allLists()">စာရင်းအားလုံး</li>
-       <li class="show-lists" onclick="singleList()">ယခုစာရင်း</li>
+     <div class="show-lists" onclick="singleList()">
+       ယခုစာရင်းကြည့်မည်
      </div>
     <div class="seeall-container"></div>
     <script>
@@ -109,9 +105,7 @@ let combinedArr = [...result1,...result2,...result3,...result4,...result5,
 ...result6,...result7,...result8,...result9,...result10,...result11,
 ];
 
-const singleList = ()=>{
-  window.location.reload()
-}
+
 // Group by name property (case-insensitive)
 let groupedByName = combinedArr.reduce((acc, obj) => {
   let key = obj.name.toLowerCase();
@@ -162,6 +156,7 @@ Result.forEach(group=>{
   })
 });
 
+
 let groupedByFinal = Final.reduce((acc, obj) => {
   let key = obj.name.toLowerCase();
   if (!acc[key]) {
@@ -169,19 +164,32 @@ let groupedByFinal = Final.reduce((acc, obj) => {
   }
   acc[key].push(obj);
   return acc;
+  
 }, {});
 
+
+const dates = JSON.parse(localStorage.getItem('date'))
 let finalResult = Object.keys(groupedByFinal).map(key => ({
+  date:dates,
   name: key.charAt(0).toUpperCase() + key.slice(1),
   items: groupedByFinal[key]
 }));
-mainlist.push(finalResult)
-localStorage.setItem('mainlist',JSON.stringify(mainlist))
-if(mainlist.length >0){
-  mainlist.splice(0,mainlist.length-1)
+console.log(finalResult)
+const singleList = ()=>{
+  if(finalResult == ""){
+    alert('စာရင်းမရှိသေးပါ')
+    return
+  }
+  contents.forEach(content=>{
+    content.classList.remove('inactive')
+  })
+  mainlist.push(finalResult)
+  localStorage.setItem('mainlist',JSON.stringify(mainlist))
+  if(mainlist.length >0){
+    mainlist.splice(0,mainlist.length-1)
+  }
+  localStorage.setItem('mainlist',JSON.stringify(mainlist))
 }
-localStorage.setItem('mainlist',JSON.stringify(mainlist))
-
 
 const container = document.querySelector('.seeall-container');
 const seeallDisplay=()=>{

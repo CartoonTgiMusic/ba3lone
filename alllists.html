@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Lists</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            padding:0px 10px ;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .main-list{
+          padding:2px 5px;
+        }
+        .mainlist-display{
+            margin-bottom: 2px;
+            color: blue;
+            background-color: white;
+        }
+
+        .date-btn{
+          width: 100%;
+          text-align: end;
+          background-color: rgb(222, 222, 222);
+          padding: 2px 5px;
+          cursor: pointer;
+          user-select: none;
+        }
+        
+        .mainlist-name{
+          font-size: 14px;
+          padding: 2px 10px;
+          color: white;
+          background-color: rgb(0, 0, 0);
+          cursor: pointer;
+        }
+        .content{
+            border-bottom:  double blue;
+            font-size: 14px;
+        }
+        .seeall-item{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 5px;
+            color: blue;
+            border-bottom:1px dotted blue;
+            user-select: none;
+        }
+        
+        .total-div{
+            margin-top: 20px;
+            margin-bottom: 2px;
+            padding: 2px 5px;
+            display: flex;
+            justify-content: space-between;
+            color: blue;
+            border-top: 1px dotted blue;
+        }
+        .red{
+            color: rgb(255, 0, 0);
+        }
+        
+        .seeall-item:hover{
+            transform: scaleY(1.2);
+            background-color: rgb(240, 240, 240);
+        }
+        .inactive{
+            display: none;
+        }
+        .active{
+          background-color: rgb(0, 255, 0);
+          font-weight: 600;
+        }
+            </style>
+</head>
+<body>
+    <h2>All Lists</h2>
+    <div class="container"></div>
+    <script>
+       const container = document.querySelector('.container');
+       const alllists = JSON.parse(localStorage.getItem('mainlists')) || []
+       alllists.forEach(element => {
+            const mainDiv = document.createElement('div')
+            mainDiv.classList.add('main-list')
+            const dates = document.createElement('div')
+            dates.classList.add('date-btn')
+            element.forEach(finalResult=>{
+              finalResult.forEach(date=>{
+                dates.textContent = `${date.date}`
+              })
+            })
+       mainDiv.append(dates)
+       const secDiv = document.createElement('div')
+       secDiv.classList.add('sec-div')
+       secDiv.classList.add('inactive')
+
+  element.forEach(finalResult=>{
+        finalResult.forEach(list => {
+        let total =  list.items.reduce((acc,cur)=>{
+                     return acc + parseInt(cur.bet)
+                    },0);
+
+            const div = document.createElement('div');
+            div.classList.add('mainlist-display');
+            const namediv = document.createElement('div')
+            namediv.classList.add('mainlist-name')
+            namediv.textContent = `${list.name}`;
+            div.appendChild(namediv)
+
+            const totaldiv = document.createElement('div')
+            totaldiv.classList.add('total-div')
+            if(total<0){
+              totaldiv.innerHTML =`<div>Total</div><div class='red'>${total}</div>`
+            }else{
+              totaldiv.innerHTML =`<div>Total</div><div>${total}</div>`
+            }
+            const content = document.createElement('div')
+            content.classList.add('content')
+            list.items.forEach((item,index) => {
+              const itemDiv = document.createElement('div');
+              itemDiv.classList.add('seeall-item');
+              if(item.bet <0){
+                itemDiv.innerHTML = `<div class='red'>${index+1}.${item.team}</div>  <div class='red'>${item.bet}</div>`;
+              }else{
+                itemDiv.innerHTML = `<div>${index+1}.${item.team}</div>  <div>${item.bet}</div>`;
+              }
+              content.append(itemDiv)
+            });
+            content.append(totaldiv)
+            div.append(content);
+            secDiv.append(div)
+            mainDiv.append(secDiv)
+            container.appendChild(mainDiv);
+        });
+        })
+       });
+
+let cusNames = document.querySelectorAll('.mainlist-name')
+let contents = document.querySelectorAll('.content')
+cusNames.forEach((name,index)=>{
+  name.addEventListener('click',()=>{
+     contents[index].classList.toggle('inactive')
+     }
+   )
+});
+
+let dateBtn = document.querySelectorAll('.date-btn')
+let secDiv = document.querySelectorAll('.sec-div')
+
+dateBtn.forEach((btn,index)=>{
+   
+  btn.addEventListener('click',()=>{
+    dateBtn.forEach(btn=>{
+      btn.classList.remove('active')
+      secDiv.forEach(list=>{
+            list.classList.add('inactive')
+          })
+      secDiv[index].classList.toggle('inactive')
+    })
+    btn.classList.add('active')
+  })
+})
+    </script>
+</body>
+</html>

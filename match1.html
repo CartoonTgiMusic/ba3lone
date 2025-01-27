@@ -791,6 +791,8 @@ goals.forEach(bet=>{
 };
 
 const Edit =()=>{
+    localStorage.removeItem('mainlist')
+    // localStorage.setItem('mainlist',JSON.stringify(mainlist))
     let btns = document.querySelectorAll('.delete-btn')
         btns.forEach(btn=>{
         btn.classList.remove('inactive')
