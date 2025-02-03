@@ -1,64 +1,1750 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bal3one</title>
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ballone</title>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  body{
+    font-size: small;
+    /* background: linear-gradient(90deg,rgb(228, 243, 177),rgb(178, 249, 150)); * */
+    background-image: url('https://images7.alphacoders.com/989/989294.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: white;
+  }
+  .nav-bar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    padding: 0 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    background: black;
+    color: white;
+    button {
+      color: white;
+      background: none;
+      border: none;
+      padding: 5px;
+    }
+  }
+  .logo {
+    width: 30px;
+    height: 30px;
+    img {
+      width: 100%;
+    }
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0px;
+    padding-top: 35px;
+  }
+  .create-scorebtns,
+  .edit-ctn,
+  .create-date-ctn,
+  .create-customer-ctn {
+    padding: 5px;
+    margin-bottom: 10px;
+    display: grid;
+    gap: 5px;
+    justify-content: center;
+    text-align: center;
+    button {
+      background-color: blue;
+      color: white;
+      padding: 10px 5px;
+    }
+    input {
+      width: 100%;
+      padding: 5px;
+    }
+  }
+  .left-side {
+    display: flex;
+    /* justify-content: space-between; */
+  }
+  .right-side {
+    padding-right: 10px;
+    list-style: none;
+    li{
+      cursor: pointer;
+    }
+  }
+  .list-btn:hover{
+    color: red;
+    transform: scaleY(1.1);
+  }
+  .match-frame {
+    padding: 0 5px;
+    max-width: 500px;
+  }
+  .match-ul {
+    border-right: 1px solid red;
+    margin-right: 5px;
+    padding: 0px 10px;
+    height: 100vh;
+  }
+  .match-titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    button {
+      background-color: blue;
+      color: white;
+      border: none;
+      padding: 2px 5px;
+    }
+  }
+  .match-title{
+    margin-right: 5px;
+  }
+  .match-title:hover{
+    color: red;
+    transform: scaleY(1.1);
+  }
+  .match-header,
+  .secmatch-header {
+    position: sticky;
+    top: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    font-size: medium;
+    h3 {
+      margin: 0px 10px;
+    }
+  }
+  table {
+    user-select: none;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    button {
+      width: 100%;
+      background: rgb(0, 0, 255);
+      color: white;
+      font-size: 12px;
+      border: none;
+      padding: 3px;
+    }
+  }
+  tr {
+    th {
+      border: 1px solid rgb(255, 0, 0);
+      background-color: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      padding: 2px 0px;
+      text-align: center;
+      font-size: small;
+
+      input {
+        width: 100%;
+        border: none;
+        background: white;
+        outline: none;
+        padding: 2px 5px;
+      }
+    }
+    .blue {
+      background-color: blue;
+    }
+  }
+  td {
+    border-bottom: 1px dotted blue;
+    background-color: white;
+    padding-top:3px;
+    text-align: center;
+    color: blue;
+    font-size: 14px;
+    button {
+      background: red;
+    }
+  }
+
+.customer-display {
+    background-color: rgb(255, 255, 255);
+    color: rgb(25, 0, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .caution {
+      padding: 5px;
+      text-align: center;
+      font-size: 1.2rem;
+      text-decoration: underline;
+    }
+  }
+
+.customer-div {
+    min-width: 350px;
+    padding: 2px 5px;
+    border-bottom: 1px dotted blue;
+    display: flex;
+    justify-content: space-between;
+  }
+
+.removecustomer-btn {
+    background: red;
+    color: white;
+    width: 50px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+.customer-details {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+  }
+
+.score-ctn,
+.secscore-ctn {
+    position: sticky;
+    bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      button {
+        padding: 5px 15px;
+        background:yellow;
+      }
+      input {
+        width: 90%;
+        padding:2px 5px;
+      }
+    }
+    .upscore-name,
+    .doscore-name {
+      width: 150px;
+    }
+    .scoresave-btn {
+      background: rgb(0, 255, 0);
+    }
+  }
+.seeall-container{
+min-width: 500px;
+}
+.seeall-display {
+    margin-bottom: 2px;
+    color: blue;
+    background-color: white;
+  }
+
+.seeall-name {
+    font-size: 14px;
+    padding: 2px 10px;
+    color: white;
+    background-color: rgb(0, 0, 0);
+    cursor: pointer;
+  }
+.content {
+    border-bottom: double blue;
+  }
+.seeall-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 5px;
+    color: blue;
+    border-bottom: 1px dotted blue;
+    user-select: none;
+    font-size: 14px;
+  }
+
+.total-div {
+    margin-top: 20px;
+    margin-bottom: 2px;
+    padding: 2px 5px;
+    display: flex;
+    justify-content: space-between;
+    color: blue;
+    border-top: 1px dotted blue;
+  }
+
+.main-list {
+    padding: 2px 5px;
+    min-width: 600px;
+  }
+.mainlist-display {
+    margin-bottom: 2px;
+    color: blue;
+    background-color: white;
+  }
+
+.date-btn {
+    width: 100%;
+    text-align: center;
+    background-color: rgb(222, 222, 222);
+    font-size: 14px;
+    padding: 2px 5px;
+    cursor: pointer;
+    user-select: none;
+  }
+.date-btn:hover{
+  transform: scaleY(1.2);
+  background: rgb(0, 255, 0)
+  }
+.mainlist-name {
+    font-size: 12px;
+    padding: 2px 10px;
+    color: white;
+    background-color: rgb(0, 0, 0);
+    cursor: pointer;
+  }
+.mcontent {
+    border-bottom: double blue;
+    font-size: 14px;
+  }
+.seeall-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: small;
+    padding: 2px 5px;
+    color: blue;
+    border-bottom: 1px dotted blue;
+    user-select: none;
+  }
+
+.maintotal-div {
+    margin-top: 20px;
+    margin-bottom: 2px;
+    padding: 2px 5px;
+    display: flex;
+    justify-content: space-between;
+    color: blue;
+    border-top: 1px dotted blue;
+  }
+.red {
+    color: rgb(255, 0, 0);
+  }
+.second {
+    cursor: pointer;
+  }
+button{
+    font-size: 12px;
+  }
+button:hover {
+    transform: scale(1.1);
+  }
+  /* Hide the arrow buttons on Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+.sec-active {
+    th {
+      background-color: black;
+      color: white;
+    }
+  }
+.active {
+    background-color: rgb(0, 255, 0);
+    font-weight: 600;
+  }
+.inactive {
+    display: none;
+  }
+ 
+</style>
 </head>
 <body>
-    <div class="nav-bar">
-        <div class="logo"><img src="hollyBoard.png" alt=""></div>
-        <div class="date-div"></div>
-        <button class="setting-btn">Setting</button>
-        <button class="back-btn inactive">Back</button>
+<div class="nav-bar">
+  <div class="logo"><img src="https://github.com/CartoonTgiMusic/ba3lone/blob/3e9c2a3aaf0fbdb52f6857419cad1ab5e2ec17f9/hollyBoard.png?raw=true" alt="logo"/></div>
+  <div class="date-div"></div>
+  <button class="setting-btn">Setting</button>
+  <button class="back-btn inactive">Back</button>
+</div>
+<div class="container">
+  <div class="left-side">
+    <div class="match-ul"></div>
+    <div class="match-frame"></div>
+  </div>
+  <div class="main inactive">
+    <div class="create-container display inactive">
+      <div class="create-date-ctn">
+        <div>နေ့စွဲထည့်ရန်</div>
+        <input type="date" class="date-input" placeholder=" 00/ 00/ 0000" />
+        <button class="date-enterbtn" onclick="addDate()">Enter</button>
+      </div>
+      <div class="create-scorebtns">
+        <div>ပွဲစဉ်အသစ်ထည့်ရန်</div>
+        <input type="text" class="home-input" id="input100" onkeydown="focusNextInput(event, 'input101')"/>
+        <input type="text" class="away-input" id="input101"onkeydown="focusNextInput(event, 'input102')"/>
+        <button class="create-btn" onclick="createMatchs()" id="input102" onkeydown="focusNextInput(event, 'input100')">Create</button>
+      </div>
+      <div class="create-customer-ctn">
+        <div class="text">ထိုးသားစားရင်းထည့်ရန်</div>
+        <input type="text" class="customer-input" placeholder="name"id="focus1" onkeydown="focusNextInput(event, 'focus2')"/>
+        <input type="number" class="plus-com" placeholder="+ com" id="focus2" onkeydown="focusNextInput(event, 'focus3')"/>
+        <input type="number" class="minus-com" placeholder="- com" id="focus3" onkeydown="focusNextInput(event, 'focus4')"/>
+        <button  onclick="addCustomers()" id="focus4" onkeydown="focusNextInput(event, 'focus1')">Add</button>
+      </div>
     </div>
-    <div class="main-ctn">
-        <div class="teamlists-display"> </div>
-        <div class="teamsiframe-display"></div>
-        <div class="toggle-display inactive">
-            <div class="datecreate-ctn display inactive ">
-               <div>နေ့စွဲထည့်ရန်</div>
-               <input type="date" class="date-input" placeholder=" 00/ 00/ 0000">
-               <button class="date-enterbtn" onclick="addDate()">Enter</button>
+    <div class="customer-display display inactive"></div>
+    <div class="seeall-container display inactive"></div>
+    <div class="all-lists-container display inactive"></div>
+    <div class="display"></div></div>
+
+  <div class="right-side">
+    <li class="list-btn">&#128214 စာရင်းအသစ်ထည့်ရန်</li>
+    <li class="list-btn showcustomer-btn">&#128214 ထိုးသားစားရင်းကြည့်ရန်</li>
+    <li class="list-btn seelist-btn" onclick="dayLists()">&#128214 ယခုစာရင်းကြည့်ရန်</li>
+    <li class="list-btn all-lists">&#128214 ယခင်စာရင်းများကြည့်ရန်</li>
+    <li class="list-btn reset-btn">&#128308 Reset</li>
+  </div>
+</div>
+
+<script>
+const date = JSON.parse(localStorage.getItem("date")) || [];
+const matchtitles = JSON.parse(localStorage.getItem("matchtitles")) || [];
+const customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+let rightsideBtns = document.querySelectorAll(".list-btn");
+let displays = document.querySelectorAll(".display");
+    rightsideBtns.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        document.querySelector(".main").classList.remove("inactive");
+        document.querySelector(".match-frame").classList.add("inactive");
+        rightsideBtns.forEach((btns) => {
+          btns.style.color = "black";
+        });
+        btn.style.color = "red";
+        displays.forEach((dis) => {
+          dis.classList.add("inactive");
+        });
+        displays[index].classList.remove("inactive");
+      });
+});
+
+document.body.addEventListener('click',()=>{
+  document.body.style.backgroundImage = "none";
+  document.body.style.color = "black";
+})
+const addDate = () => {
+  let showDate = document.querySelector(".date-input").value;
+  if (showDate == "") {
+    alert("Enter date")
+    return
+  }
+  date.push(showDate)
+  localStorage.setItem("date", JSON.stringify(date));
+  if (date.length > 0) {
+      date.splice(0, date.length - 1);
+  }
+  localStorage.setItem("date", JSON.stringify(date));
+  document.querySelector(".date-div").innerHTML = date;
+  document.querySelector(".date-input").value = "";
+};
+
+document.querySelector(".date-div").innerHTML = date;
+
+const createMatchs = () => {
+  let Home = document.querySelector(".home-input").value;
+  let Away = document.querySelector(".away-input").value;
+  matchtitles.push({ Home: Home, Away: Away });
+  localStorage.setItem("matchtitles", JSON.stringify(matchtitles));
+  document.querySelector(".away-input").value = ""
+  document.querySelector(".home-input").value = ""
+  renderMatchList();
+};
+
+const customerDisplay = () => {
+  let html = "";
+  customers.forEach((name, index) => {
+    let customer = name.name.charAt(0).toUpperCase() + name.name.slice(1);
+    html += "<div class='customer-div'>";
+    html += `
+      <div class='customer-details'>
+      <div>${customer}</div><div> (+${name.plus}) . (-${name.minus}) </div>
+      </div>`
+    html += `<button class="removecustomer-btn" onclick="removeCustomer(${index})">X</button>`;
+    html += "</div >";
+    document.querySelector(".customer-display").innerHTML =`<div class='caution'>Customers</div>` + html;
+  });
+};
+
+customerDisplay();
+
+const refreshCustomerDisplay = () => {
+  let html = "";
+  customers.forEach((name, index) => {
+    let customer = name.name.charAt(0).toUpperCase() + name.name.slice(1);
+    html += "<div class='customer-div'>"
+    html += `
+    <div class='customer-details'>
+    <div>${customer}</div><div> (+${name.plus}) . (-${name.minus}) </div>
+    </div>`
+    html += `<button class="removecustomer-btn" onclick="removeCustomer(${index})">X</button>`
+    html += "</div >"
+    document.querySelector(".customer-display").innerHTML = ` <div class='caution'>Customers</div>` + html;
+  });
+};
+
+const addCustomers = () => {
+  let Name = document.querySelector(".customer-input").value;
+  let name = Name.toLowerCase();
+  let plus = document.querySelector(".plus-com").value;
+  let minus = document.querySelector(".minus-com").value;
+  for(let i=0;i<customers.length;i++){
+    if(name == customers[i].name){
+      document.querySelector(".customer-input").value = "";
+      return
+    }
+  }
+  plusComm = 1 - plus / 100;
+  minusComm = 1 - minus / 100;
+  if (name == "") {return}
+  if (plus == 0) {plusComm = 1}
+  if (minus == 0) {minusComm = 1}
+  customers.push({ name, plusComm, minusComm, plus, minus });
+//   const uniqueCustomer = Array.from(new Set(customers.map(item => JSON.stringify(item))))
+//   .map(item => JSON.parse(item));
+// console.log(uniqueCustomer)
+  localStorage.setItem("customers", JSON.stringify(customers));
+  document.querySelector(".customer-input").value = "";
+  refreshCustomerDisplay();
+};
+
+const removeCustomer = (index) => {
+  customers.splice(index, 1);
+  localStorage.setItem("customers", JSON.stringify(customers));
+  refreshCustomerDisplay();
+};
+
+const dayLists=()=>{
+      if(finalResult == ""){
+        alert('စာရင်းမရှိသေးပါ')
+        return
+      }
+      mainlist.push(finalResult)
+      localStorage.setItem('mainlist',JSON.stringify(mainlist))
+      if(mainlist.length >0){
+        mainlist.splice(0,mainlist.length-1)
+      }
+  localStorage.setItem('mainlist',JSON.stringify(mainlist))
+};
+
+const renderMatchList=()=>{
+  const matchUl = document.querySelector(".match-ul");
+  matchUl.innerHTML = ""; // Clear the list first
+  let html = "";
+  matchtitles.forEach((vs, index) => {
+    html += "<div class='match-title-div'>";
+    html += `<div class="edit-ctn inactive">
+          <input type="text" class="edithome">
+          <input type="text" class="editaway">
+      </div>`;
+    html += `
+      <div class='match-titles'>
+          <div class='match-title' onclick='showMatchDetail(${index})'> &#9917 ${vs.Home}   Vs   ${vs.Away}</div>
+          <div class="macthtitle-btns-div">
+              <button class="edit-btn" onclick="editMatch(${index})">Edit</button>
+              <button class="sub-btn inactive" onclick="updateMatch(${index})">Update</button>
           </div>
-            <div class="matchcreate-ctn display inactive ">
-               <div class="change-text">ပွဲစဉ်အသစ်ထည့်ရန်</div>
-               <input type="text" class="upname-input" placeholder="Up team" id="focus5" onkeydown="focusNext(event, 'focus6')">
-               <input type="text" class="doname-input" placeholder="Down team" id="focus6" onkeydown="focusNext(event, 'focus7')">
-               <button onclick="addTeam()" id="focus7" class="add-btn" onkeydown="focusNext(event, 'focus5')">Add</button>
-               <button onclick="Save()" class="save-btn">Save</button>
-          </div>
-            <div class="customercreate-ctn display inactive ">
-                <div class="text">ထိုးသားစားရင်းထည့်ရန်</div>
-                    <input type="text" class="customer-input" placeholder="name" id="focus1" onkeydown="focusNext(event, 'focus2')">
-                         <input type="number" class="plus-com" placeholder="+ com" id="focus2" onkeydown="focusNext(event, 'focus3')">
-                         <input type="number" class="minus-com" placeholder="- com" id="focus3" onkeydown="focusNext(event, 'focus4')">
-                    <button onclick="addCustomers()" id="focus4" onkeydown="focusNext(event, 'focus1')">Add</button>
-                    <button onclick="Save()" class="customersave-btn">Save</button>
-             </div>
-            <div class="customer-display display inactive "></div>
-            <div class="seeall-iframe display inactive"></div>
-            <div class="display inactive"></div>
-            <div class="alllists-iframe display inactive"></div>
-            <div class="display inactive"></div>
-        </div>
-        <div class="settinglists-display inactive">
-            <li class="list-btn">နေ့စွဲထည့်ရန်</li>
-            <li class="list-btn">ပွဲစဉ်အသစ်ထည့်ရန်</li>
-            <li class="list-btn">ထိုးသားစားရင်းထည့်ရန်</li>
-            <li class="list-btn showcustomer-btn">ထိုးသားစားရင်းကြည့်ရန်</li>
-            <li class="list-btn seeall-btn">ယခုစာရင်းကြည့်ရန်</li>
-            <li class="list-btn for-edit-btn">ပွဲစဉ်စာရင်းပြုပြင်ရန်</li>
-            <li class="list-btn all-lists">စာရင်းအားလုံးကြည့်ရန်</li>
-            <li class="list-btn reset-btn">Reset</li>
-        </div>
-    </div>
+      </div> `
+    html += "</div >";
+    document.querySelector(".match-ul").innerHTML = html;
+  });
+}
+
+const editMatch=(index)=> {
+  document.querySelector('.main').classList.add('inactive')
+  document.querySelector(".edit-ctn").classList.remove("inactive");
+  let editBtns = document.querySelectorAll(".edit-btn");
+  editBtns.forEach((btn) => {
+    btn.classList.add("inactive")
+    let matchTitles = document.querySelectorAll(".match-title");
+        matchTitles.forEach((title) => {
+          title.classList.add("inactive")
+        });
+        matchTitles[index].classList.remove("inactive");
+
+    let suBtns = document.querySelectorAll(".sub-btn");
+        suBtns.forEach((btn) => {
+          btn.classList.add("inactive");
+        });
+    suBtns[index].classList.remove("inactive");
+    document.querySelector(".edithome").value = matchtitles[index].Home;
+    document.querySelector(".editaway").value = matchtitles[index].Away;
+  });
+}
+
+const updateMatch=(index)=> {
+  document.querySelector(".edit-ctn").classList.add("inactive");
+  let Home = document.querySelector(".edithome").value;
+  let Away = document.querySelector(".editaway").value;
+  if(document.querySelector(".edithome").value == matchtitles[index].Home &&
+    document.querySelector(".editaway").value == matchtitles[index].Away){
+    renderMatchList(index);
+    return
+    }
     
-    <script src="app.js">
+  let indexToReplace = index;
+  let newObject = { Home: Home, Away: Away };
+  if (indexToReplace >= 0 && indexToReplace < matchtitles.length) {
+    matchtitles[indexToReplace] = newObject;
+  }
+
+  localStorage.removeItem('score'+index)
+  localStorage.removeItem('result'+index)
+  localStorage.removeItem('mainlist')
+  localStorage.setItem("matchtitles", JSON.stringify(matchtitles));
+  renderMatchList(index);
+  showMatchDetail(index);
+};
+
+const showMatchDetail=(index)=> {
+  document.querySelector(".match-frame").classList.remove("inactive");
+  let redcolor = document.querySelectorAll('.match-title')
+      redcolor.forEach(color=> color.style.color = 'black')
+      redcolor[index].style.color = 'red'
+  rightsideBtns.forEach(btns => btns.style.color = "black");
+  let matchscore = JSON.parse(localStorage.getItem("score" + index)) || [];
+      if (matchscore == "") {
+        matchscore.push({ home: "", away: "" });
+      }
+let html = "";
+html += "<div>";
+html += `
+      <div class="match-header"><h4 class="home">${matchtitles[index].Home} </h4><h3 class="home-score">${matchscore[0].home}</h3>
+            - <h3 class="away-score">${matchscore[0].away}</h3><h4 class="away">${matchtitles[index].Away}</h4>
+      </div>
+      <div class="secmatch-header inactive"><h4 class="sechome">${matchtitles[index].Home}</h4><h3 class="sechome-score"></h3><h3> - 
+          </h3><h3 class="secaway-score"></h3><h4 class="secaway">${matchtitles[index].Away}</h4><h5> (Second)</h5>
+      </div>
+
+      <div class="main-ctn">
+        <table class="body-table">
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>Bodd</th>
+                <th class="upteam-name">${matchtitles[index].Home} </th>
+                <th class="doteam-name">${matchtitles[index].Away} </th>
+                <th class="second-btext" onclick="Second(${index})">Full-Second</th>
+            </tr>
+          </thead>
+          <thead class="inputs-thead">
+            <tr>
+                <th><input type="text" class="name-input" id="input1" onkeydown="focusNextInput(event, 'input2')"></th>
+                <th><input type="text" class="odd-input" id="input2" onkeydown="focusNextInput(event, 'input3')"></th>
+                <th> <input type="number" class="upteambet-input" id="input3" onkeydown="focusNextInput(event, 'input4')"></th>
+                <th><input type="number" class="downteambet-input" id="input4" onkeydown="focusNextInput(event, 'input5')"> </th>
+                <th class="blue"><button  id="input5" onclick="Enter(${index})" class="enter-btn" onkeydown="focusNextInput(event, 'input1')">Enter</button></th>
+            </tr>
+          </thead>
+          <tbody class="body-display"></tbody>
+          <tbody class="secbody-display inactive"></tbody>
+        </table>
+
+        <table class="goals-table">
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>Godd</th>
+                <th>Goal+↑</th>
+                <th>Goal+↓</th>
+                <th class="second-gtext">Full-Second</th>
+            </tr>
+          </thead>
+          <thead class="inputs-thead">
+            <tr>
+                <th><input type="text" class="goalname-input" id="input6" onkeydown="focusNextInput(event, 'input7')" ></th>
+                <th><input type="text" class="goalodd-input" id="input7" onkeydown="focusNextInput(event, 'input8')" > </th>
+                <th><input type="number" class="upgoalbet-input" id="input8" onkeydown="focusNextInput(event, 'input9')" ></th>
+                <th><input type="number" class="dogoalbet-input" id="input9" onkeydown="focusNextInput(event, 'input10')" ></th>
+                <th class="blue"><button  onclick="goalEnter(${index})" id="input10" class="goalenter-btn" onkeydown="focusNextInput(event, 'input1')">Enter</button></th>
+            </tr>
+          </thead>
+          <tbody class="goals-display"></tbody>
+          <tbody class="secgoals-display"></tbody>
+        </table>
+      </div>
+      <div class="score-ctn">
+          <div>
+            <button onclick="scoreEdit(${index})" class="scoreedit-btn">Edit</button>
+          </div>
+          
+          <div class="upscore"><input type="number" class="upscore-input" id="input11" onkeydown="focusNextInput(event, 'input12')" placeholder='${matchtitles[index].Home} '></div>
+          <div class="doscore"><input type="number" class="doscore-input" id="input12"onkeydown="focusNextInput(event, 'input13')"placeholder='${matchtitles[index].Away} '></div>
         
-    </script>
-    <!-- <iframe src="seeall.html" frameborder="0"  height="100vh" class="see-all inactive"></iframe> -->
+          <div>
+              <button onclick="scoreSave(${index})" id="input13" class="scoresave-btn">Save</button>
+          </div>
+      </div>`
+html += "</div>";
+
+  document.querySelector(".match-frame").innerHTML = html;
+  Refresh(index);
+
+  document.querySelector(".main").classList.add("inactive");
+  document.getElementById("input1").addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        document.getElementById("input6").focus();
+      }
+    });
+  document.getElementById("input6").addEventListener("keydown", function (e) {
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        document.getElementById("input1").focus();
+      }
+    });
+  document.getElementById("input5").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        Enter(index);
+      }
+    });
+  document.getElementById("input10").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        goalEnter(index);
+      }
+    });
+};
+
+document.getElementById("focus4").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+  }
+  addCustomers();
+});
+
+const focusNextInput = (event, nextInputId) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById(nextInputId).focus();
+  }
+};
+
+document.getElementById("input102").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      createMatchs();
+    }
+  });
+
+let second = false;
+
+const Second = (index) => {
+  second = true;
+  if (second) {
+    document.querySelector(".nav").classList.toggle("inactive");
+    document.querySelector(".secnav").classList.toggle("inactive");
+    document.querySelector(".body-table").classList.toggle("sec-active");
+    document.querySelector(".goals-table").classList.toggle("sec-active");
+    document.querySelector(".body-display").classList.toggle("inactive");
+    document
+      .querySelector(".secbody-display")
+      .classList.toggle("inactive");
+    document.querySelector(".goals-display").classList.toggle("inactive");
+    document
+      .querySelector(".secgoals-display")
+      .classList.toggle("inactive");
+  }
+};
+
+const Refresh=(index)=> {
+  let body = JSON.parse(localStorage.getItem("body" + index)) || [];
+  let secbody = JSON.parse(localStorage.getItem("secbody" + index)) || [];
+  let goals = JSON.parse(localStorage.getItem("goals" + index)) || [];
+  let secgoals =JSON.parse(localStorage.getItem("secgoals" + index)) || [];
+  let html = "";
+  body.forEach((ele, idx) => {
+    html += "<tr>";
+    html += `
+              <td>${ele.name}</td>
+              <td>${ele.Bodd}</td>
+              <td>${ele.upBet}</td>
+              <td>${ele.doBet}</td>
+              <td><button class='delete-btn' onclick='RemoveBody(${index}, ${idx})'>Delete</button></td>
+          `
+    html += "</tr>";
+  });
+  document.querySelector(".body-display").innerHTML = html;
+
+  let sechtml = "";
+  secbody.forEach((ele, idx) => {
+    sechtml += "<tr>";
+    sechtml += `
+              <td>${ele.name}</td>
+              <td>${ele.Bodd}</td>
+              <td>${ele.upBet}</td>
+              <td>${ele.doBet}</td>
+              <td><button class='delete-btn' onclick='RemoveBody(${index}, ${idx})'>Delete</button></td>
+          `
+    sechtml += "</tr>";
+  });
+  document.querySelector(".secbody-display").innerHTML = sechtml;
+
+  let ghtml = "";
+  goals.forEach((ele, idx) => {
+    ghtml += "<tr>";
+    ghtml += `
+            <td>${ele.name}</td>
+            <td>${ele.Godd}</td>
+            <td>${ele.GupBet}</td>
+            <td>${ele.GdoBet}</td>
+            <td><button onclick='RemoveGoals(${index},${idx})'>Delete</button></td>
+          `
+    ghtml += "</tr>";
+    document.querySelector(".goals-display").innerHTML = ghtml;
+  });
+
+  let secghtml = "";
+  secgoals.forEach((ele, idx) => {
+    secghtml += "<tr>";
+    secghtml += `
+            <td>${ele.name}</td>
+            <td>${ele.Godd}</td>
+            <td>${ele.GupBet}</td>
+            <td>${ele.GdoBet}</td>
+            <td><button onclick='RemoveGoals(${index},${idx})'>Delete</button></td>
+          `
+    secghtml += "</tr>";
+    document.querySelector(".secgoals-display").innerHTML = secghtml;
+  });
+}
+
+renderMatchList();
+
+const Enter = (index) => {
+  let name = document.querySelector(".name-input").value;
+  let Bodd = document.querySelector(".odd-input").value;
+  let upBet = document.querySelector(".upteambet-input").value;
+  let doBet = document.querySelector(".downteambet-input").value;
+  let result = JSON.parse(localStorage.getItem("result" + index)) || [];
+  if(result !=""){return}
+  if (name == "" || Bodd == "") {
+    if (confirm("Please enter name or odd")) {
+      return;
+    }
+  }
+  if ((upBet == "" && doBet == "") || (upBet != "" && doBet != "")) {
+    if (confirm("Please enter correct bet")) {
+      return;
+    }
+  }
+  
+  let body = JSON.parse(localStorage.getItem("body" + index)) || [];
+  let myObj = { name, Bodd, upBet, doBet };
+  body.push(myObj);
+  localStorage.setItem("body" + index, JSON.stringify(body));
+
+  document.querySelector(".upteambet-input").value = "";
+  document.querySelector(".downteambet-input").value = "";
+
+  Refresh(index);
+};
+
+const goalEnter = (index) => {
+  let name = document.querySelector(".goalname-input").value;
+  let Godd = document.querySelector(".goalodd-input").value;
+  let GupBet = document.querySelector(".upgoalbet-input").value;
+  let GdoBet = document.querySelector(".dogoalbet-input").value;
+  let result = JSON.parse(localStorage.getItem("result" + index)) || [];
+
+  if(result !=""){return}
+  if (name == "" || Godd == "") {
+    if (confirm("Please enter name or odd")) {
+      return;
+    }
+  }
+  if (GupBet == "" && GdoBet == "") {
+    if (confirm("Please enter your bet")) {
+      return;
+    }
+  }
+  let goals = JSON.parse(localStorage.getItem("goals" + index)) || [];
+  let myObj = { name, Godd, GupBet, GdoBet };
+  goals.push(myObj);
+  localStorage.setItem("goals" + index, JSON.stringify(goals));
+
+  document.querySelector(".goalname-input").value = "";
+  document.querySelector(".upgoalbet-input").value = "";
+  document.querySelector(".dogoalbet-input").value = "";
+
+  Refresh(index);
+};
+
+function RemoveBody(index, rowIndex) {
+  let result = JSON.parse(localStorage.getItem("result" + index)) || [];
+  if(result !=""){return}
+  
+  let body = JSON.parse(localStorage.getItem("body" + index)) || [];
+  body.splice(rowIndex, 1); // Remove the item from the array
+  localStorage.setItem("body" + index, JSON.stringify(body));
+  Refresh(index); // Re-render the table
+}
+
+function RemoveGoals(index, rowIndex) {
+  let result = JSON.parse(localStorage.getItem("result" + index)) || [];
+  if(result !=""){return}
+
+  let goals =JSON.parse(localStorage.getItem("goals" + index)) || [];
+  goals.splice(rowIndex, 1); // Remove the item from the array
+  localStorage.setItem("goals" + index, JSON.stringify(goals));
+  Refresh(index); // Re-render the table
+}
+
+const scoreSave = (index) => {
+  let body = JSON.parse(localStorage.getItem("body" + index)) || [];
+  let goals = JSON.parse(localStorage.getItem("goals" + index)) || [];
+  let matchscore =JSON.parse(localStorage.getItem("score" + index)) || [];
+  let result = JSON.parse(localStorage.getItem("result" + index)) || [];
+
+  if(result !=""){return}
+
+  let upscore = document.querySelector(".upscore-input").value;
+  let doscore = document.querySelector(".doscore-input").value;
+  if (body == "" && goals == "") {
+    return;
+  }
+  if (upscore == "" || doscore == "") {
+    alert("Enter Goal score");
+    return;
+  }
+  matchscore.push({ home: upscore, away: doscore });
+  localStorage.setItem("score" + index, JSON.stringify(matchscore));
+  if (matchscore.length > 0) {
+    matchscore.splice(0, matchscore.length - 1);
+    localStorage.setItem("score" + index, JSON.stringify(matchscore));
+  }
+
+  let oddProperty = [
+    "1=",
+    "1+05",
+    "1+10",
+    "1+15",
+    "1+20",
+    "1+25",
+    "1+30",
+    "1+35",
+    "1+40",
+    "1+45",
+    "1+50",
+    "1+55",
+    "1+60",
+    "1+65",
+    "1+70",
+    "1+75",
+    "1+80",
+    "1+85",
+    "1+90",
+    "1+95",
+    "1+",
+    "2=",
+    "2+05",
+    "2+10",
+    "2+15",
+    "2+20",
+    "2+25",
+    "2+30",
+    "2+35",
+    "2+40",
+    "2+45",
+    "2+50",
+    "2+55",
+    "2+60",
+    "2+65",
+    "2+70",
+    "2+75",
+    "2+80",
+    "2+85",
+    "2+90",
+    "2+95",
+    "2+",
+    "3=",
+    "3+05",
+    "3+10",
+    "3+15",
+    "3+20",
+    "3+25",
+    "3+30",
+    "3+35",
+    "3+40",
+    "3+45",
+    "3+50",
+    "3+55",
+    "3+60",
+    "3+65",
+    "3+70",
+    "3+75",
+    "3+80",
+    "3+85",
+    "3+90",
+    "3+95",
+    "3+",
+    "4=",
+    "4+05",
+    "4+10",
+    "4+15",
+    "4+20",
+    "4+25",
+    "4+30",
+    "4+35",
+    "4+40",
+    "4+45",
+    "4+50",
+    "4+55",
+    "4+60",
+    "4+65",
+    "4+70",
+    "4+75",
+    "4+80",
+    "4+85",
+    "4+90",
+    "4+95",
+    "4+",
+    "5=",
+    "5+05",
+    "5+10",
+    "5+15",
+    "5+20",
+    "5+25",
+    "5+30",
+    "5+35",
+    "5+40",
+    "5+45",
+    "5+50",
+    "5+55",
+    "5+60",
+    "5+65",
+    "5+70",
+    "5+75",
+    "5+80",
+    "5+85",
+    "5+90",
+    "5+95",
+    "5+",
+    "6=",
+    "6+05",
+    "6+10",
+    "6+15",
+    "6+20",
+    "6+25",
+    "6+30",
+    "6+35",
+    "6+40",
+    "6+45",
+    "6+50",
+    "6+55",
+    "6+60",
+    "6+65",
+    "6+70",
+    "6+75",
+    "6+80",
+    "6+85",
+    "6+90",
+    "6+95",
+    "6+",
+    "7=",
+    "7+05",
+    "7+10",
+    "7+15",
+    "7+20",
+    "7+25",
+    "7+30",
+    "7+35",
+    "7+40",
+    "7+45",
+    "7+50",
+    "7+55",
+    "7+60",
+    "7+65",
+    "7+70",
+    "7+75",
+    "7+80",
+    "7+85",
+    "7+90",
+    "7+95",
+    "7+",
+    "=0",
+    "=-05",
+    "=-10",
+    "=-15",
+    "=-20",
+    "=-25",
+    "=-30",
+    "=-35",
+    "=-40",
+    "=-45",
+    "=-50",
+    "=-55",
+    "=-60",
+    "=-65",
+    "=-70",
+    "=-75",
+    "=-80",
+    "=-85",
+    "=-90",
+    "=-95",
+    "=-",
+    "1-05",
+    "1-10",
+    "1-15",
+    "1-20",
+    "1-25",
+    "1-30",
+    "1-35",
+    "1-40",
+    "1-45",
+    "1-50",
+    "1-55",
+    "1-60",
+    "1-65",
+    "1-70",
+    "1-75",
+    "1-80",
+    "1-85",
+    "1-90",
+    "1-95",
+    "1-",
+    "2-05",
+    "2-10",
+    "2-15",
+    "2-20",
+    "2-25",
+    "2-30",
+    "2-35",
+    "2-40",
+    "2-45",
+    "2-50",
+    "2-55",
+    "2-60",
+    "2-65",
+    "2-70",
+    "2-75",
+    "2-80",
+    "2-85",
+    "2-90",
+    "2-95",
+    "2-",
+    "3-05",
+    "3-10",
+    "3-15",
+    "3-20",
+    "3-25",
+    "3-30",
+    "3-35",
+    "3-40",
+    "3-45",
+    "3-50",
+    "3-55",
+    "3-60",
+    "3-65",
+    "3-70",
+    "3-75",
+    "3-80",
+    "3-85",
+    "3-90",
+    "3-95",
+    "3-",
+    "4-05",
+    "4-10",
+    "4-15",
+    "4-20",
+    "4-25",
+    "4-30",
+    "4-35",
+    "4-40",
+    "4-45",
+    "4-50",
+    "4-55",
+    "4-60",
+    "4-65",
+    "4-70",
+    "4-75",
+    "4-80",
+    "4-85",
+    "4-90",
+    "4-95",
+    "4-",
+    "5-05",
+    "5-10",
+    "5-15",
+    "5-20",
+    "5-25",
+    "5-30",
+    "5-35",
+    "5-40",
+    "5-45",
+    "5-50",
+    "5-55",
+    "5-60",
+    "5-65",
+    "5-70",
+    "5-75",
+    "5-80",
+    "5-85",
+    "5-90",
+    "5-95",
+    "5-",
+    "6-05",
+    "6-10",
+    "6-15",
+    "6-20",
+    "6-25",
+    "6-30",
+    "6-35",
+    "6-40",
+    "6-45",
+    "6-50",
+    "6-55",
+    "6-60",
+    "6-65",
+    "6-70",
+    "6-75",
+    "6-80",
+    "6-85",
+    "6-90",
+    "6-95",
+    "6-",
+    "7-05",
+    "7-10",
+    "7-15",
+    "7-20",
+    "7-25",
+    "7-30",
+    "7-35",
+    "7-40",
+    "7-45",
+    "7-50",
+    "7-55",
+    "7-60",
+    "7-65",
+    "7-70",
+    "7-75",
+    "7-80",
+    "7-85",
+    "7-90",
+    "7-95",
+    "7-",
+  ];
+
+  let oddValue = [
+    0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,
+    0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 0, 0.05, 0.1, 0.15, 0.2,
+    0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8,
+    0.85, 0.9, 0.95, 1, 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4,
+    0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 0,
+    0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,
+    0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 0, 0.05, 0.1, 0.15, 0.2,
+    0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8,
+    0.85, 0.9, 0.95, 1, 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4,
+    0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 0,
+    0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,
+    0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 0, -0.05, -0.1, -0.15, -0.2,
+    -0.25, -0.3, -0.35, -0.4, -0.45, -0.5, -0.55, -0.6, -0.65, -0.7,
+    -0.75, -0.8, -0.85, -0.9, -0.95, -1, -0.05, -0.1, -0.15, -0.2, -0.25,
+    -0.3, -0.35, -0.4, -0.45, -0.5, -0.55, -0.6, -0.65, -0.7, -0.75, -0.8,
+    -0.85, -0.9, -0.95, -1, -0.05, -0.1, -0.15, -0.2, -0.25, -0.3, -0.35,
+    -0.4, -0.45, -0.5, -0.55, -0.6, -0.65, -0.7, -0.75, -0.8, -0.85, -0.9,
+    -0.95, -1, -0.05, -0.1, -0.15, -0.2, -0.25, -0.3, -0.35, -0.4, -0.45,
+    -0.5, -0.55, -0.6, -0.65, -0.7, -0.75, -0.8, -0.85, -0.9, -0.95, -1,
+    -0.05, -0.1, -0.15, -0.2, -0.25, -0.3, -0.35, -0.4, -0.45, -0.5,
+    -0.55, -0.6, -0.65, -0.7, -0.75, -0.8, -0.85, -0.9, -0.95, -1, -0.05,
+    -0.1, -0.15, -0.2, -0.25, -0.3, -0.35, -0.4, -0.45, -0.5, -0.55, -0.6,
+    -0.65, -0.7, -0.75, -0.8, -0.85, -0.9, -0.95, -1, -0.05, -0.1, -0.15,
+    -0.2, -0.25, -0.3, -0.35, -0.4, -0.45, -0.5, -0.55, -0.6, -0.65, -0.7,
+    -0.75, -0.8, -0.85, -0.9, -0.95, -1, -0.05, -0.1, -0.15, -0.2, -0.25,
+    -0.3, -0.35, -0.4, -0.45, -0.5, -0.55, -0.6, -0.65, -0.7, -0.75, -0.8,
+    -0.85, -0.9, -0.95, -1,
+  ];
+
+  let Result = 0;
+  body.forEach((bet) => {
+    let upname = matchtitles[index].Home;
+    let dname = matchtitles[index].Away;
+
+    if (upscore - doscore > bet.Bodd.charAt(0)) {
+      if (bet.doBet == "") {
+        Result = bet.upBet * 1;
+        let obj = { name: bet.name, team: upname, upscore, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+      if (bet.upBet == "") {
+        Result = bet.doBet * -1;
+        let obj = { name: bet.name, team: dname, doscore, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+    }
+
+    if (upscore - doscore < bet.Bodd.charAt(0)) {
+      if (bet.doBet == "") {
+        Result = bet.upBet * -1;
+        let obj = { name: bet.name, team: upname, upscore, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+      if (bet.upBet == "") {
+        Result = bet.doBet * 1;
+        let obj = { name: bet.name, team: dname, doscore, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+    }
+
+    //    for  =-
+    if (bet.Bodd.charAt(0) == "=") {
+      if (upscore == doscore) {
+        let combinedObject = {};
+        for (let i = 0; i < oddProperty.length; i++) {
+          combinedObject[oddProperty[i]] = oddValue[i];
+          if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
+            Result = bet.upBet * oddValue[i];
+            let obj = { name: bet.name, team: upname, upscore, Result };
+            result.push(obj);
+            localStorage.setItem(
+              "result" + index,
+              JSON.stringify(result)
+            );
+          }
+          if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
+            Result = -bet.doBet * oddValue[i];
+            let obj = { name: bet.name, team: dname, doscore, Result };
+            result.push(obj);
+            localStorage.setItem(
+              "result" + index,
+              JSON.stringify(result)
+            );
+          }
+        }
+      }
+      if (upscore - doscore > 0) {
+        if (bet.doBet == "") {
+          Result = bet.upBet * 1;
+          let obj = { name: bet.name, team: upname, upscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.upBet == "") {
+          Result = bet.doBet * -1;
+          let obj = { name: bet.name, team: dname, doscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+
+      if (upscore - doscore < 0) {
+        if (bet.doBet == "") {
+          Result = bet.upBet * -1;
+          let obj = { name: bet.name, team: upname, upscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.upBet == "") {
+          Result = bet.doBet * 1;
+          let obj = { name: bet.name, team: dname, doscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+    }
+    // for 1+
+    if (upscore - doscore == bet.Bodd.charAt(0)) {
+      let combinedObject = {};
+      for (let i = 0; i < oddProperty.length; i++) {
+        combinedObject[oddProperty[i]] = oddValue[i];
+        if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
+          Result = bet.upBet * oddValue[i];
+          let obj = { name: bet.name, team: upname, upscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
+          Result = -bet.doBet * oddValue[i];
+          let obj = { name: bet.name, team: dname, doscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+    }
+  });
+
+  let totalGoals = +upscore + +doscore;
+  let gupname = matchtitles[index].Home + " Goal+↑";
+  let gdoname = matchtitles[index].Away + " Goal+↓";
+
+  goals.forEach((bet) => {
+    if (bet.Godd.charAt(0) < totalGoals) {
+      if (bet.GdoBet == "") {
+        Result = bet.GupBet * 1;
+        let obj = { name: bet.name, team: gupname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+      if (bet.GupBet == "") {
+        Result = bet.GdoBet * -1;
+        let obj = { name: bet.name, team: gdoname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+    }
+
+    if (bet.Godd.charAt(0) > totalGoals) {
+      if (bet.GdoBet == "") {
+        Result = bet.GupBet * -1;
+        let obj = { name: bet.name, team: gupname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+      if (bet.GupBet == "") {
+        Result = bet.GdoBet * 1;
+        let obj = { name: bet.name, team: gdoname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+    }
+
+    if (bet.Godd.charAt(0) == totalGoals) {
+      let Gup_combinedObject = {};
+      for (let i = 0; i < oddProperty.length; i++) {
+        Gup_combinedObject[oddProperty[i]] = oddValue[i];
+        if (bet.Godd === oddProperty[i] && bet.GdoBet == "") {
+          Result = bet.GupBet * oddValue[i];
+          let obj = { name: bet.name, team: gupname, totalGoals, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.Godd === oddProperty[i] && bet.GupBet == "") {
+          Result = -bet.GdoBet * oddValue[i];
+          let obj = { name: bet.name, team: gdoname, totalGoals, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+    }
+
+    if (bet.Godd.charAt(0) == "=") {
+      if (totalGoals == 0) {
+        let Gup_combinedObject = {};
+        for (let i = 0; i < oddProperty.length; i++) {
+          Gup_combinedObject[oddProperty[i]] = oddValue[i];
+          if (bet.Godd === oddProperty[i] && bet.GdoBet == "") {
+            Result = bet.GupBet * oddValue[i];
+            let obj = {
+              name: bet.name,
+              team: gupname,
+              totalGoals,
+              Result,
+            };
+            result.push(obj);
+            localStorage.setItem(
+              "result" + index,
+              JSON.stringify(result)
+            );
+          }
+          if (bet.Godd === oddProperty[i] && bet.GupBet == "") {
+            Result = -bet.GdoBet * oddValue[i];
+            let obj = {
+              name: bet.name,
+              team: gdoname,
+              totalGoals,
+              Result,
+            };
+            result.push(obj);
+            localStorage.setItem(
+              "result" + index,
+              JSON.stringify(result)
+            );
+          }
+        }
+      }
+
+      if (totalGoals > 0) {
+        if (bet.GdoBet == "") {
+          Result = bet.GupBet * 1;
+          let obj = { name: bet.name, team: gupname, totalGoals, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.GupBet == "") {
+          Result = bet.GdoBet * -1;
+          let obj = { name: bet.name, team: gdoname, totalGoals, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+    }
+  });
+  window.location.reload();
+};
+
+const scoreEdit = (index) => {
+  let result = JSON.parse(localStorage.getItem("result" + index)) || [];
+  let matchscore =JSON.parse(localStorage.getItem("score" + index)) || [];
+  
+  localStorage.removeItem('result'+index)
+  localStorage.removeItem('score'+index)
+  showMatchDetail(index);
+};
+
+const mainlist = JSON.parse(localStorage.getItem("mainlist")) || [];
+
+let combinedArr = [];
+
+for (let i = 0; i <= 100; i++) {
+  let result = JSON.parse(localStorage.getItem("result" + i)) || [];
+  combinedArr = combinedArr.concat(result);
+}
+// Group by name property (case-insensitive)
+let groupedByName = combinedArr.reduce((acc, obj) => {
+  let key = obj.name.toLowerCase();
+  if (!acc[key]) {
+    acc[key] = [];
+  }
+  acc[key].push(obj);
+  return acc;
+}, {});
+
+// Convert the object to an array
+let Result = Object.keys(groupedByName).map((key) => ({
+  name: key,
+  items: groupedByName[key],
+}));
+
+let Final = [];
+Result.forEach((group) => {
+  customers.forEach((Name) => {
+    if (group.name == Name.name) {
+      group.items.forEach((bet) => {
+        if (bet.Result > 0) {
+          let final = bet.Result * Name.plusComm;
+          Final.push({
+            name: Name.name,
+            team: bet.team,
+            bet: final,
+          });
+        }
+        if (bet.Result < 0) {
+          let final = bet.Result * Name.minusComm;
+          Final.push({
+            name: Name.name,
+            team: bet.team,
+            bet: final,
+          });
+        }
+        if (bet.Result == 0) {
+          let final = 0;
+          Final.push({
+            name: Name.name,
+            team: bet.team,
+            bet: final,
+          });
+        }
+      });
+    }
+  });
+});
+
+let groupedByFinal = Final.reduce((acc, obj) => {
+  let key = obj.name.toLowerCase();
+  if (!acc[key]) {
+    acc[key] = [];
+  }
+  acc[key].push(obj);
+  return acc;
+}, {});
+
+const dates = JSON.parse(localStorage.getItem("date"));
+let finalResult = Object.keys(groupedByFinal).map((key) => ({
+  date: dates,
+  name: key.charAt(0).toUpperCase() + key.slice(1),
+  items: groupedByFinal[key],
+}));
+
+const container = document.querySelector(".seeall-container");
+
+const seeallDisplay = () => {
+  finalResult.forEach((list) => {
+    let total = list.items.reduce((acc, cur) => {
+      return acc + parseInt(cur.bet);
+    }, 0);
+
+    const div = document.createElement("div");
+    div.classList.add("seeall-display");
+
+    const namediv = document.createElement("div");
+    namediv.classList.add("seeall-name");
+    namediv.textContent = `${list.name}`;
+
+    div.appendChild(namediv);
+
+    const totaldiv = document.createElement("div");
+    totaldiv.classList.add("total-div");
+    if (total < 0) {
+      totaldiv.innerHTML = `<div>Total</div><div class='red'>${total}</div>`;
+    } else {
+      totaldiv.innerHTML = `<div>Total</div><div>${total}</div>`;
+    }
+
+    const content = document.createElement("div");
+    content.classList.add("content");
+    list.items.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.classList.add("seeall-item");
+      if (item.bet < 0) {
+        itemDiv.innerHTML = `<div class='red'>${index + 1}.${
+          item.team
+        }</div>  <div class='red'>${item.bet}</div>`;
+      } else {
+        itemDiv.innerHTML = `<div>${index + 1}.${item.team}</div>  <div>${
+          item.bet
+        }</div>`;
+      }
+      content.append(itemDiv);
+    });
+    content.append(totaldiv);
+    div.append(content);
+    container.appendChild(div);
+  });
+};
+
+seeallDisplay();
+
+let cusNames = document.querySelectorAll(".seeall-name");
+let contents = document.querySelectorAll(".content");
+    cusNames.forEach((name, index) => {
+      contents.forEach((content) => {
+        content.classList.add("inactive");
+      });
+      name.addEventListener("click", () => {
+        contents[index].classList.toggle("inactive");
+      });
+    });
+
+const mainlists = JSON.parse(localStorage.getItem("mainlists")) || [];
+document.querySelector(".reset-btn").addEventListener("click", () => {
+  // Assuming 'localStorageKeyToPreserve' is the key you want to keep
+  const localStorageKeyToPreserve = "customers";
+  const localStorageKeyToPreserve2 = "mainlists";
+  // Copy the value of the key to keep
+  const preservedValue = localStorage.getItem(localStorageKeyToPreserve);
+  const preservedValue2 = localStorage.getItem(
+    localStorageKeyToPreserve2
+  );
+  // Clear all keys in localStorage
+  localStorage.clear();
+  // Restore the preserved key
+  if (preservedValue2 !== null) {
+    localStorage.setItem(localStorageKeyToPreserve2, preservedValue2);
+  }
+  localStorage.setItem(localStorageKeyToPreserve, preservedValue);
+  localStorage.setItem(localStorageKeyToPreserve2, preservedValue2);
+  if (mainlist == "") {
+    return
+  } else {
+    mainlists.unshift(mainlist);
+    localStorage.setItem("mainlists", JSON.stringify(mainlists));
+    localStorage.removeItem("mainlist");
+  }
+  window.location.reload();
+});
+
+const Maincontainer = document.querySelector(".all-lists-container");
+      mainlists.forEach((element) => {
+        const mainDiv = document.createElement("div");
+        mainDiv.classList.add("main-list");
+        const dates = document.createElement("div");
+        dates.classList.add("date-btn");
+        element.forEach((finalResult) => {
+          finalResult.forEach((date) => {
+            dates.textContent = `${date.date}`;
+          });
+        });
+      mainDiv.append(dates);
+      const secDiv = document.createElement("div");
+      secDiv.classList.add("sec-div");
+      secDiv.classList.add("inactive");
+
+      element.forEach((finalResult) => {
+      finalResult.forEach((list) => {
+      let total = list.items.reduce((acc, cur) => {
+        return acc + parseInt(cur.bet);
+      }, 0);
+
+      const div = document.createElement("div");
+      div.classList.add("mainlist-display");
+      const namediv = document.createElement("div");
+      namediv.classList.add("mainlist-name");
+      namediv.textContent = `${list.name}`;
+      div.appendChild(namediv);
+
+      const totaldiv = document.createElement("div");
+      totaldiv.classList.add("maintotal-div");
+      if (total < 0) {
+        totaldiv.innerHTML = `<div>Total</div><div class='red'>${total}</div>`;
+      } else {
+        totaldiv.innerHTML = `<div>Total</div><div>${total}</div>`;
+      }
+      const content = document.createElement("div");
+      content.classList.add("mcontent");
+      list.items.forEach((item, index) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("seeall-item");
+        if (item.bet < 0) {
+          itemDiv.innerHTML = `<div class='red'>${index + 1}.${item.team}</div>  <div class='red'>${item.bet}</div>`;
+        } else {
+          itemDiv.innerHTML = `<div>${index + 1}.${item.team}</div>  <div>${item.bet}</div>`;
+        }
+        content.append(itemDiv);
+      });
+      content.append(totaldiv);
+      div.append(content);
+      secDiv.append(div);
+      mainDiv.append(secDiv);
+      Maincontainer.appendChild(mainDiv);
+    });
+  });
+});
+
+let mcusNames = document.querySelectorAll(".mainlist-name");
+let mcontents = document.querySelectorAll(".mcontent");
+    mcusNames.forEach((name, index) => {
+      name.addEventListener("click", () => {
+        mcontents[index].classList.toggle("inactive");
+      });
+    });
+
+let dateBtn = document.querySelectorAll(".date-btn");
+let secDiv = document.querySelectorAll(".sec-div");
+    dateBtn.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        dateBtn.forEach((btn) => {
+          btn.classList.remove("active");
+          secDiv.forEach((list) => {
+            list.classList.add("inactive");
+          });
+          secDiv[index].classList.toggle("inactive");
+        });
+        btn.classList.add("active");
+      });
+    });
+
+</script>
 </body>
 </html>
-
