@@ -13,11 +13,11 @@
   body{
     font-size: small;
     /* background: linear-gradient(90deg,rgb(228, 243, 177),rgb(178, 249, 150)); * */
-    background-image: url('https://images7.alphacoders.com/989/989294.jpg');
+    /* background-image: url('https://images7.alphacoders.com/989/989294.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    color: white;
+    color: white; */
   }
   .nav-bar {
     width: 100%;
@@ -39,6 +39,8 @@
     }
   }
   .logo {
+  display: flex;
+  align-items: center;
     width: 30px;
     height: 30px;
     img {
@@ -128,7 +130,7 @@
       margin: 0px 10px;
     }
   }
-  table {
+  table{
     user-select: none;
     border-collapse: collapse;
     margin-bottom: 30px;
@@ -351,12 +353,7 @@ input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-.sec-active {
-    th {
-      background-color: black;
-      color: white;
-    }
-  }
+
 .active {
     background-color: rgb(0, 255, 0);
     font-weight: 600;
@@ -369,7 +366,9 @@ input[type="number"]::-webkit-outer-spin-button {
 </head>
 <body>
 <div class="nav-bar">
-  <div class="logo"><img src="https://github.com/CartoonTgiMusic/ba3lone/blob/3e9c2a3aaf0fbdb52f6857419cad1ab5e2ec17f9/hollyBoard.png?raw=true" alt="logo"/></div>
+  <div class="logo">Ba3lone
+    <!-- <img src="https://github.com/CartoonTgiMusic/ba3lone/blob/3e9c2a3aaf0fbdb52f6857419cad1ab5e2ec17f9/hollyBoard.png?raw=true" alt="logo"/> -->
+  </div>
   <div class="date-div"></div>
   <button class="setting-btn">Setting</button>
   <button class="back-btn inactive">Back</button>
@@ -440,6 +439,7 @@ document.body.addEventListener('click',()=>{
   document.body.style.backgroundImage = "none";
   document.body.style.color = "black";
 })
+
 const addDate = () => {
   let showDate = document.querySelector(".date-input").value;
   if (showDate == "") {
@@ -606,6 +606,7 @@ const updateMatch=(index)=> {
   }
 
   localStorage.removeItem('score'+index)
+  localStorage.removeItem('secscore'+index)
   localStorage.removeItem('result'+index)
   localStorage.removeItem('mainlist')
   localStorage.setItem("matchtitles", JSON.stringify(matchtitles));
@@ -614,23 +615,38 @@ const updateMatch=(index)=> {
 };
 
 const showMatchDetail=(index)=> {
-  document.querySelector(".match-frame").classList.remove("inactive");
+  second = false
+  if(date ==""){
+    alert("နေ့စွဲထည့်ရန်")
+    document.querySelector(".match-frame").classList.add("inactive");
+  }else{
+    document.querySelector(".match-frame").classList.remove("inactive");
+  }
+  
   let redcolor = document.querySelectorAll('.match-title')
       redcolor.forEach(color=> color.style.color = 'black')
       redcolor[index].style.color = 'red'
-  rightsideBtns.forEach(btns => btns.style.color = "black");
-  let matchscore = JSON.parse(localStorage.getItem("score" + index)) || [];
+      rightsideBtns.forEach(btns => btns.style.color = "black");
+  
+    let secmatchscore = JSON.parse(localStorage.getItem("secscore" + index)) || [];
+      if (secmatchscore == "") {
+        secmatchscore.push({ home: "", away: "" });
+      }
+  
+    let matchscore = JSON.parse(localStorage.getItem("score" + index)) || [];
       if (matchscore == "") {
         matchscore.push({ home: "", away: "" });
       }
+  
+  
 let html = "";
 html += "<div>";
 html += `
       <div class="match-header"><h4 class="home">${matchtitles[index].Home} </h4><h3 class="home-score">${matchscore[0].home}</h3>
             - <h3 class="away-score">${matchscore[0].away}</h3><h4 class="away">${matchtitles[index].Away}</h4>
       </div>
-      <div class="secmatch-header inactive"><h4 class="sechome">${matchtitles[index].Home}</h4><h3 class="sechome-score"></h3><h3> - 
-          </h3><h3 class="secaway-score"></h3><h4 class="secaway">${matchtitles[index].Away}</h4><h5> (Second)</h5>
+      <div class="secmatch-header inactive"><h4 class="sechome">${matchtitles[index].Home}</h4><h3 class="sechome-score">${secmatchscore[0].home}</h3> - 
+          </h3><h3 class="secaway-score">${secmatchscore[0].away}</h3><h4 class="secaway">${matchtitles[index].Away}</h4><h5> (Second)</h5>
       </div>
 
       <div class="main-ctn">
@@ -641,7 +657,7 @@ html += `
                 <th>Bodd</th>
                 <th class="upteam-name">${matchtitles[index].Home} </th>
                 <th class="doteam-name">${matchtitles[index].Away} </th>
-                <th class="second-btext" onclick="Second(${index})">Full-Second</th>
+                <th class="secbtext" onclick="Second(${index})">Full-Time</th>
             </tr>
           </thead>
           <thead class="inputs-thead">
@@ -664,7 +680,7 @@ html += `
                 <th>Godd</th>
                 <th>Goal+↑</th>
                 <th>Goal+↓</th>
-                <th class="second-gtext">Full-Second</th>
+                <th class="secgtext">Full-Time</th>
             </tr>
           </thead>
           <thead class="inputs-thead">
@@ -677,7 +693,7 @@ html += `
             </tr>
           </thead>
           <tbody class="goals-display"></tbody>
-          <tbody class="secgoals-display"></tbody>
+          <tbody class="secgoals-display inactive"></tbody>
         </table>
       </div>
       <div class="score-ctn">
@@ -748,21 +764,22 @@ document.getElementById("input102").addEventListener("keydown", function (e) {
 let second = false;
 
 const Second = (index) => {
-  second = true;
-  if (second) {
-    document.querySelector(".nav").classList.toggle("inactive");
-    document.querySelector(".secnav").classList.toggle("inactive");
-    document.querySelector(".body-table").classList.toggle("sec-active");
-    document.querySelector(".goals-table").classList.toggle("sec-active");
-    document.querySelector(".body-display").classList.toggle("inactive");
-    document
-      .querySelector(".secbody-display")
-      .classList.toggle("inactive");
-    document.querySelector(".goals-display").classList.toggle("inactive");
-    document
-      .querySelector(".secgoals-display")
-      .classList.toggle("inactive");
+  if(!second){
+    second = true
+    document.querySelector(".secbtext").textContent = 'Second-Time';
+    document.querySelector(".secgtext").textContent = 'Second-Time';
+  }else{
+    second = false
+    document.querySelector(".secbtext").textContent = 'Full-Time';
+    document.querySelector(".secgtext").textContent = 'Full-Time';
   }
+    document.querySelector(".match-header").classList.toggle("inactive");
+    document.querySelector(".secmatch-header").classList.toggle("inactive");
+    
+    document.querySelector(".body-display").classList.toggle("inactive");
+    document.querySelector(".secbody-display").classList.toggle("inactive");
+    document.querySelector(".goals-display").classList.toggle("inactive");
+    document.querySelector(".secgoals-display").classList.toggle("inactive");
 };
 
 const Refresh=(index)=> {
@@ -809,8 +826,8 @@ const Refresh=(index)=> {
             <td><button onclick='RemoveGoals(${index},${idx})'>Delete</button></td>
           `
     ghtml += "</tr>";
-    document.querySelector(".goals-display").innerHTML = ghtml;
   });
+  document.querySelector(".goals-display").innerHTML = ghtml;
 
   let secghtml = "";
   secgoals.forEach((ele, idx) => {
@@ -823,8 +840,8 @@ const Refresh=(index)=> {
             <td><button onclick='RemoveGoals(${index},${idx})'>Delete</button></td>
           `
     secghtml += "</tr>";
-    document.querySelector(".secgoals-display").innerHTML = secghtml;
   });
+  document.querySelector(".secgoals-display").innerHTML = secghtml;
 }
 
 renderMatchList();
@@ -835,7 +852,9 @@ const Enter = (index) => {
   let upBet = document.querySelector(".upteambet-input").value;
   let doBet = document.querySelector(".downteambet-input").value;
   let result = JSON.parse(localStorage.getItem("result" + index)) || [];
-  if(result !=""){return}
+  let matchscore = JSON.parse(localStorage.getItem("score" + index)) || [];
+  let secmatchscore = JSON.parse(localStorage.getItem("secscore" + index)) || [];
+  if(matchscore !=""){return}
   if (name == "" || Bodd == "") {
     if (confirm("Please enter name or odd")) {
       return;
@@ -848,9 +867,15 @@ const Enter = (index) => {
   }
   
   let body = JSON.parse(localStorage.getItem("body" + index)) || [];
-  let myObj = { name, Bodd, upBet, doBet };
-  body.push(myObj);
-  localStorage.setItem("body" + index, JSON.stringify(body));
+  let secbody = JSON.parse(localStorage.getItem("secbody" + index)) || [];
+  if(second){
+    if(secmatchscore !=""){return}
+    secbody.push({ name, Bodd, upBet, doBet });
+    localStorage.setItem("secbody" + index, JSON.stringify(secbody));
+  }else{
+    body.push({ name, Bodd, upBet, doBet });
+    localStorage.setItem("body" + index, JSON.stringify(body));
+  }
 
   document.querySelector(".upteambet-input").value = "";
   document.querySelector(".downteambet-input").value = "";
@@ -864,8 +889,10 @@ const goalEnter = (index) => {
   let GupBet = document.querySelector(".upgoalbet-input").value;
   let GdoBet = document.querySelector(".dogoalbet-input").value;
   let result = JSON.parse(localStorage.getItem("result" + index)) || [];
+  let matchscore = JSON.parse(localStorage.getItem("score" + index)) || [];
+  let secmatchscore = JSON.parse(localStorage.getItem("secscore" + index)) || [];
 
-  if(result !=""){return}
+  if(matchscore !=""){return}
   if (name == "" || Godd == "") {
     if (confirm("Please enter name or odd")) {
       return;
@@ -876,10 +903,17 @@ const goalEnter = (index) => {
       return;
     }
   }
+  
   let goals = JSON.parse(localStorage.getItem("goals" + index)) || [];
-  let myObj = { name, Godd, GupBet, GdoBet };
-  goals.push(myObj);
-  localStorage.setItem("goals" + index, JSON.stringify(goals));
+  let secgoals = JSON.parse(localStorage.getItem("secgoals" + index)) || [];
+  if(second){
+    if(secmatchscore !=""){return}
+    secgoals.push({ name, Godd, GupBet, GdoBet });
+    localStorage.setItem("secgoals" + index, JSON.stringify(secgoals));
+  }else{
+    goals.push({ name, Godd, GupBet, GdoBet });
+    localStorage.setItem("goals" + index, JSON.stringify(goals));
+  }
 
   document.querySelector(".goalname-input").value = "";
   document.querySelector(".upgoalbet-input").value = "";
@@ -890,70 +924,89 @@ const goalEnter = (index) => {
 
 function RemoveBody(index, rowIndex) {
   let result = JSON.parse(localStorage.getItem("result" + index)) || [];
-  if(result !=""){return}
-  
-  let body = JSON.parse(localStorage.getItem("body" + index)) || [];
-  body.splice(rowIndex, 1); // Remove the item from the array
-  localStorage.setItem("body" + index, JSON.stringify(body));
+  let matchscore = JSON.parse(localStorage.getItem("score" + index)) || [];
+  let secmatchscore = JSON.parse(localStorage.getItem("secscore" + index)) || [];
+  if(matchscore !=""){return}
+  if(second){
+    if(secmatchscore !=""){return}
+    let secbody = JSON.parse(localStorage.getItem("secbody" + index)) || [];
+    secbody.splice(rowIndex, 1); // Remove the item from the array
+    localStorage.setItem("secbody" + index, JSON.stringify(secbody));
+    Refresh(index);
+  }else{
+    let body = JSON.parse(localStorage.getItem("body" + index)) || [];
+    body.splice(rowIndex, 1); // Remove the item from the array
+    localStorage.setItem("body" + index, JSON.stringify(body));
+  }
   Refresh(index); // Re-render the table
 }
 
 function RemoveGoals(index, rowIndex) {
   let result = JSON.parse(localStorage.getItem("result" + index)) || [];
-  if(result !=""){return}
-
-  let goals =JSON.parse(localStorage.getItem("goals" + index)) || [];
-  goals.splice(rowIndex, 1); // Remove the item from the array
-  localStorage.setItem("goals" + index, JSON.stringify(goals));
+  let matchscore = JSON.parse(localStorage.getItem("score" + index)) || [];
+  let secmatchscore = JSON.parse(localStorage.getItem("secscore" + index)) || [];
+  if(matchscore !=""){return}
+  if(second){
+    if(secmatchscore !=""){return}
+    let secgoals = JSON.parse(localStorage.getItem("secgoals" + index)) || [];
+    secgoals.splice(rowIndex, 1); // Remove the item from the array
+    localStorage.setItem("secgoals" + index, JSON.stringify(secgoals));
+    Refresh(index);
+  }else{
+    let goals = JSON.parse(localStorage.getItem("goals" + index)) || [];
+    goals.splice(rowIndex, 1); // Remove the item from the array
+    localStorage.setItem("goals" + index, JSON.stringify(goals));
+  }
   Refresh(index); // Re-render the table
 }
 
 const scoreSave = (index) => {
   let body = JSON.parse(localStorage.getItem("body" + index)) || [];
+  let secbody = JSON.parse(localStorage.getItem("secbody" + index)) || [];
   let goals = JSON.parse(localStorage.getItem("goals" + index)) || [];
+  let secgoals = JSON.parse(localStorage.getItem("secgoals" + index)) || [];
   let matchscore =JSON.parse(localStorage.getItem("score" + index)) || [];
+  let secmatchscore =JSON.parse(localStorage.getItem("secscore" + index)) || [];
   let result = JSON.parse(localStorage.getItem("result" + index)) || [];
-
-  if(result !=""){return}
-
+  
   let upscore = document.querySelector(".upscore-input").value;
   let doscore = document.querySelector(".doscore-input").value;
-  if (body == "" && goals == "") {
+  if (body == "" && goals == "" && secbody == "" && secgoals == "") {
     return;
+  };
+  
+  
+
+  if(second){
+    if(secmatchscore !=""){return}
+    if(upscore == "" && doscore ==""){
+    alert('Enter Second Goals Score!')
+    return
   }
-  if (upscore == "" || doscore == "") {
-    alert("Enter Goal score");
-    return;
+    secmatchscore.push({ home: upscore, away: doscore });
+    localStorage.setItem("secscore" + index, JSON.stringify(secmatchscore));
+    if (secmatchscore.length > 0) {
+      secmatchscore.splice(0, secmatchscore.length - 1);
+      localStorage.setItem("secscore" + index, JSON.stringify(secmatchscore));
+    }
+    showMatchDetail(index)
+  }else{
+    if(matchscore !=""){return}
+    if(upscore == "" && doscore ==""){
+    alert('Enter Goals Score!')
+    return
   }
-  matchscore.push({ home: upscore, away: doscore });
-  localStorage.setItem("score" + index, JSON.stringify(matchscore));
-  if (matchscore.length > 0) {
-    matchscore.splice(0, matchscore.length - 1);
+    matchscore.push({ home: upscore, away: doscore });
     localStorage.setItem("score" + index, JSON.stringify(matchscore));
+    if (matchscore.length > 0) {
+      matchscore.splice(0, matchscore.length - 1);
+      localStorage.setItem("score" + index, JSON.stringify(matchscore));
+    }
+  window.location.reload()
   }
 
   let oddProperty = [
-    "1=",
-    "1+05",
-    "1+10",
-    "1+15",
-    "1+20",
-    "1+25",
-    "1+30",
-    "1+35",
-    "1+40",
-    "1+45",
-    "1+50",
-    "1+55",
-    "1+60",
-    "1+65",
-    "1+70",
-    "1+75",
-    "1+80",
-    "1+85",
-    "1+90",
-    "1+95",
-    "1+",
+    "1=","1+05","1+10","1+15","1+20","1+25","1+30","1+35","1+40","1+45","1+50","1+55","1+60","1+65","1+70","1+75","1+80","1+85","1+90","1+95","1+",
     "2=",
     "2+05",
     "2+10",
@@ -1241,6 +1294,26 @@ const scoreSave = (index) => {
     "7-90",
     "7-95",
     "7-",
+    "=+05",
+    "=+10",
+    "=+15",
+    "=+20",
+    "=+25",
+    "=+30",
+    "=+35",
+    "=+40",
+    "=+45",
+    "=+50",
+    "=+55",
+    "=+60",
+    "=+65",
+    "=+70",
+    "=+75",
+    "=+80",
+    "=+85",
+    "=+90",
+    "=+95",
+    "=+",
   ];
 
   let oddValue = [
@@ -1270,71 +1343,17 @@ const scoreSave = (index) => {
     -0.2, -0.25, -0.3, -0.35, -0.4, -0.45, -0.5, -0.55, -0.6, -0.65, -0.7,
     -0.75, -0.8, -0.85, -0.9, -0.95, -1, -0.05, -0.1, -0.15, -0.2, -0.25,
     -0.3, -0.35, -0.4, -0.45, -0.5, -0.55, -0.6, -0.65, -0.7, -0.75, -0.8,
-    -0.85, -0.9, -0.95, -1,
+    -0.85, -0.9, -0.95, -1,0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,
+    0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1,
   ];
 
   let Result = 0;
-  body.forEach((bet) => {
-    let upname = matchtitles[index].Home;
-    let dname = matchtitles[index].Away;
-
-    if (upscore - doscore > bet.Bodd.charAt(0)) {
-      if (bet.doBet == "") {
-        Result = bet.upBet * 1;
-        let obj = { name: bet.name, team: upname, upscore, Result };
-        result.push(obj);
-        localStorage.setItem("result" + index, JSON.stringify(result));
-      }
-      if (bet.upBet == "") {
-        Result = bet.doBet * -1;
-        let obj = { name: bet.name, team: dname, doscore, Result };
-        result.push(obj);
-        localStorage.setItem("result" + index, JSON.stringify(result));
-      }
-    }
-
-    if (upscore - doscore < bet.Bodd.charAt(0)) {
-      if (bet.doBet == "") {
-        Result = bet.upBet * -1;
-        let obj = { name: bet.name, team: upname, upscore, Result };
-        result.push(obj);
-        localStorage.setItem("result" + index, JSON.stringify(result));
-      }
-      if (bet.upBet == "") {
-        Result = bet.doBet * 1;
-        let obj = { name: bet.name, team: dname, doscore, Result };
-        result.push(obj);
-        localStorage.setItem("result" + index, JSON.stringify(result));
-      }
-    }
-
-    //    for  =-
-    if (bet.Bodd.charAt(0) == "=") {
-      if (upscore == doscore) {
-        let combinedObject = {};
-        for (let i = 0; i < oddProperty.length; i++) {
-          combinedObject[oddProperty[i]] = oddValue[i];
-          if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
-            Result = bet.upBet * oddValue[i];
-            let obj = { name: bet.name, team: upname, upscore, Result };
-            result.push(obj);
-            localStorage.setItem(
-              "result" + index,
-              JSON.stringify(result)
-            );
-          }
-          if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
-            Result = -bet.doBet * oddValue[i];
-            let obj = { name: bet.name, team: dname, doscore, Result };
-            result.push(obj);
-            localStorage.setItem(
-              "result" + index,
-              JSON.stringify(result)
-            );
-          }
-        }
-      }
-      if (upscore - doscore > 0) {
+  if(second){
+    secbody.forEach((bet) => {
+      let upname ='2nd ' + matchtitles[index].Home;
+      let dname ='2nd ' + matchtitles[index].Away;
+  
+      if (upscore - doscore > bet.Bodd.charAt(0)) {
         if (bet.doBet == "") {
           Result = bet.upBet * 1;
           let obj = { name: bet.name, team: upname, upscore, Result };
@@ -1348,8 +1367,8 @@ const scoreSave = (index) => {
           localStorage.setItem("result" + index, JSON.stringify(result));
         }
       }
-
-      if (upscore - doscore < 0) {
+  
+      if (upscore - doscore < bet.Bodd.charAt(0)) {
         if (bet.doBet == "") {
           Result = bet.upBet * -1;
           let obj = { name: bet.name, team: upname, upscore, Result };
@@ -1363,32 +1382,307 @@ const scoreSave = (index) => {
           localStorage.setItem("result" + index, JSON.stringify(result));
         }
       }
-    }
-    // for 1+
-    if (upscore - doscore == bet.Bodd.charAt(0)) {
-      let combinedObject = {};
-      for (let i = 0; i < oddProperty.length; i++) {
-        combinedObject[oddProperty[i]] = oddValue[i];
-        if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
-          Result = bet.upBet * oddValue[i];
+  
+      //    for  =-
+      if (bet.Bodd.charAt(0) == "=") {
+        if (upscore == doscore) {
+          let combinedObject = {};
+          for (let i = 0; i < oddProperty.length; i++) {
+            combinedObject[oddProperty[i]] = oddValue[i];
+            if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
+              Result = bet.upBet * oddValue[i];
+              let obj = { name: bet.name, team: upname, upscore, Result };
+              result.push(obj);
+              localStorage.setItem(
+                "result" + index,
+                JSON.stringify(result)
+              );
+            }
+            if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
+              Result = -bet.doBet * oddValue[i];
+              let obj = { name: bet.name, team: dname, doscore, Result };
+              result.push(obj);
+              localStorage.setItem(
+                "result" + index,
+                JSON.stringify(result)
+              );
+            }
+          }
+        }
+        if (upscore - doscore > 0) {
+          if (bet.doBet == "") {
+            Result = bet.upBet * 1;
+            let obj = { name: bet.name, team: upname, upscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+          if (bet.upBet == "") {
+            Result = bet.doBet * -1;
+            let obj = { name: bet.name, team: dname, doscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+        }
+  
+        if (upscore - doscore < 0) {
+          if (bet.doBet == "") {
+            Result = bet.upBet * -1;
+            let obj = { name: bet.name, team: upname, upscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+          if (bet.upBet == "") {
+            Result = bet.doBet * 1;
+            let obj = { name: bet.name, team: dname, doscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+        }
+      }
+      // for 1+
+      if (upscore - doscore == bet.Bodd.charAt(0)) {
+        let combinedObject = {};
+        for (let i = 0; i < oddProperty.length; i++) {
+          combinedObject[oddProperty[i]] = oddValue[i];
+          if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
+            Result = bet.upBet * oddValue[i];
+            let obj = { name: bet.name, team: upname, upscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+          if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
+            Result = -bet.doBet * oddValue[i];
+            let obj = { name: bet.name, team: dname, doscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+        }
+      }
+    });
+
+  }else{
+    body.forEach((bet) => {
+      let upname = matchtitles[index].Home;
+      let dname = matchtitles[index].Away;
+  
+      if (upscore - doscore > bet.Bodd.charAt(0)) {
+        if (bet.doBet == "") {
+          Result = bet.upBet * 1;
           let obj = { name: bet.name, team: upname, upscore, Result };
           result.push(obj);
           localStorage.setItem("result" + index, JSON.stringify(result));
         }
-        if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
-          Result = -bet.doBet * oddValue[i];
+        if (bet.upBet == "") {
+          Result = bet.doBet * -1;
           let obj = { name: bet.name, team: dname, doscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+  
+      if (upscore - doscore < bet.Bodd.charAt(0)) {
+        if (bet.doBet == "") {
+          Result = bet.upBet * -1;
+          let obj = { name: bet.name, team: upname, upscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.upBet == "") {
+          Result = bet.doBet * 1;
+          let obj = { name: bet.name, team: dname, doscore, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+  
+      //    for  =-
+      if (bet.Bodd.charAt(0) == "=") {
+        if (upscore == doscore) {
+          let combinedObject = {};
+          for (let i = 0; i < oddProperty.length; i++) {
+            combinedObject[oddProperty[i]] = oddValue[i];
+            if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
+              Result = bet.upBet * oddValue[i];
+              let obj = { name: bet.name, team: upname, upscore, Result };
+              result.push(obj);
+              localStorage.setItem(
+                "result" + index,
+                JSON.stringify(result)
+              );
+            }
+            if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
+              Result = -bet.doBet * oddValue[i];
+              let obj = { name: bet.name, team: dname, doscore, Result };
+              result.push(obj);
+              localStorage.setItem(
+                "result" + index,
+                JSON.stringify(result)
+              );
+            }
+          }
+        }
+        if (upscore - doscore > 0) {
+          if (bet.doBet == "") {
+            Result = bet.upBet * 1;
+            let obj = { name: bet.name, team: upname, upscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+          if (bet.upBet == "") {
+            Result = bet.doBet * -1;
+            let obj = { name: bet.name, team: dname, doscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+        }
+  
+        if (upscore - doscore < 0) {
+          if (bet.doBet == "") {
+            Result = bet.upBet * -1;
+            let obj = { name: bet.name, team: upname, upscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+          if (bet.upBet == "") {
+            Result = bet.doBet * 1;
+            let obj = { name: bet.name, team: dname, doscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+        }
+      }
+      // for 1+
+      if (upscore - doscore == bet.Bodd.charAt(0)) {
+        let combinedObject = {};
+        for (let i = 0; i < oddProperty.length; i++) {
+          combinedObject[oddProperty[i]] = oddValue[i];
+          if (bet.Bodd == oddProperty[i] && bet.doBet == "") {
+            Result = bet.upBet * oddValue[i];
+            let obj = { name: bet.name, team: upname, upscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+          if (bet.Bodd === oddProperty[i] && bet.upBet == "") {
+            Result = -bet.doBet * oddValue[i];
+            let obj = { name: bet.name, team: dname, doscore, Result };
+            result.push(obj);
+            localStorage.setItem("result" + index, JSON.stringify(result));
+          }
+        }
+      }
+    });
+  }
+
+  if(second){
+    let totalGoals = +upscore + +doscore;
+    let gupname ="2nd "+ matchtitles[index].Home + " Goal+↑";
+    let gdoname ="2nd "+ matchtitles[index].Home + " Goal+↓";
+    secgoals.forEach((bet) => {
+    if (bet.Godd.charAt(0) < totalGoals) {
+      if (bet.GdoBet == "") {
+        Result = bet.GupBet * 1;
+        let obj = { name: bet.name, team: gupname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+      if (bet.GupBet == "") {
+        Result = bet.GdoBet * -1;
+        let obj = { name: bet.name, team: gdoname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+    }
+
+    if (bet.Godd.charAt(0) > totalGoals) {
+      if (bet.GdoBet == "") {
+        Result = bet.GupBet * -1;
+        let obj = { name: bet.name, team: gupname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+      if (bet.GupBet == "") {
+        Result = bet.GdoBet * 1;
+        let obj = { name: bet.name, team: gdoname, totalGoals, Result };
+        result.push(obj);
+        localStorage.setItem("result" + index, JSON.stringify(result));
+      }
+    }
+
+    if (bet.Godd.charAt(0) == totalGoals) {
+      let Gup_combinedObject = {};
+      for (let i = 0; i < oddProperty.length; i++) {
+        Gup_combinedObject[oddProperty[i]] = oddValue[i];
+        if (bet.Godd === oddProperty[i] && bet.GdoBet == "") {
+          Result = bet.GupBet * oddValue[i];
+          let obj = { name: bet.name, team: gupname, totalGoals, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.Godd === oddProperty[i] && bet.GupBet == "") {
+          Result = -bet.GdoBet * oddValue[i];
+          let obj = { name: bet.name, team: gdoname, totalGoals, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+      }
+    }
+
+    if (bet.Godd.charAt(0) == "=") {
+      if (totalGoals == 0) {
+        let Gup_combinedObject = {};
+        for (let i = 0; i < oddProperty.length; i++) {
+          Gup_combinedObject[oddProperty[i]] = oddValue[i];
+          if (bet.Godd === oddProperty[i] && bet.GdoBet == "") {
+            Result = bet.GupBet * oddValue[i];
+            let obj = {
+              name: bet.name,
+              team: gupname,
+              totalGoals,
+              Result,
+            };
+            result.push(obj);
+            localStorage.setItem(
+              "result" + index,
+              JSON.stringify(result)
+            );
+          }
+          if (bet.Godd === oddProperty[i] && bet.GupBet == "") {
+            Result = -bet.GdoBet * oddValue[i];
+            let obj = {
+              name: bet.name,
+              team: gdoname,
+              totalGoals,
+              Result,
+            };
+            result.push(obj);
+            localStorage.setItem(
+              "result" + index,
+              JSON.stringify(result)
+            );
+          }
+        }
+      }
+
+      if (totalGoals > 0) {
+        if (bet.GdoBet == "") {
+          Result = bet.GupBet * 1;
+          let obj = { name: bet.name, team: gupname, totalGoals, Result };
+          result.push(obj);
+          localStorage.setItem("result" + index, JSON.stringify(result));
+        }
+        if (bet.GupBet == "") {
+          Result = bet.GdoBet * -1;
+          let obj = { name: bet.name, team: gdoname, totalGoals, Result };
           result.push(obj);
           localStorage.setItem("result" + index, JSON.stringify(result));
         }
       }
     }
   });
-
+}else{
   let totalGoals = +upscore + +doscore;
-  let gupname = matchtitles[index].Home + " Goal+↑";
-  let gdoname = matchtitles[index].Away + " Goal+↓";
-
+  let gupname =matchtitles[index].Home + " Goal+↑";
+  let gdoname =matchtitles[index].Home + " Goal+↓";
   goals.forEach((bet) => {
     if (bet.Godd.charAt(0) < totalGoals) {
       if (bet.GdoBet == "") {
@@ -1491,15 +1785,17 @@ const scoreSave = (index) => {
       }
     }
   });
-  window.location.reload();
+}
 };
 
 const scoreEdit = (index) => {
   let result = JSON.parse(localStorage.getItem("result" + index)) || [];
   let matchscore =JSON.parse(localStorage.getItem("score" + index)) || [];
+  let secmatchscore =JSON.parse(localStorage.getItem("secscore" + index)) || [];
   
   localStorage.removeItem('result'+index)
   localStorage.removeItem('score'+index)
+  localStorage.removeItem('secscore'+index)
   showMatchDetail(index);
 };
 
